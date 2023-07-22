@@ -750,7 +750,7 @@ void bufferswitch(long index, ASIOBool processNow) {
 				if (CountButtonClicked == 0) {
 					MarginTime.push_back(to_string(Num));  // 遅延時間をベクタの先頭要素に代入
 					MarginTime.push_back( TimeStampButtonClicked);   // 押下時刻をベクタの2番目の要素に代入
-					GetEditBoxTextFunc(hParentWindow);      // 被験者情報をベクタの最後に代入
+					GetEditBoxTextFunc(hParentWindow);      // 被験者情報をベクタの最後に代入 
 				}
 				
 				if (CountButtonClicked) {

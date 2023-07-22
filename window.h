@@ -33,6 +33,7 @@ bool SendCountButtonClicked(HWND, int&);
 
 bool GetEditBoxTextFunc(HWND);
 
+
 #define ID_STATIC1 2001
 #define ID_STATIC2 2002
 #define ID_STATIC_NUMBERDELAY1 2003
