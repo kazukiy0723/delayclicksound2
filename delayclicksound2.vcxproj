@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dialogbox.cpp" />
     <ClCompile Include="file.cpp" />
     <ClCompile Include="include\ASIO_SDK\asiosdk\common\asio.cpp" />
     <ClCompile Include="include\ASIO_SDK\asiosdk\host\asiodrivers.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="ソース.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dialogbox.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="memo.h" />
     <ClInclude Include="resource.h" />

@@ -23,6 +23,7 @@
 #include"window.h"
 #include"main.h"
 #include"file.h"
+#include"dialogbox.h"
 
 // Visualスタイル有効化
 #pragma comment(linker,"\"/manifestdependency:type='win32' \
@@ -83,6 +84,11 @@ int TempNumberOfTrials;
 static char FileNameCSV[MAX_PATH];
 // タイムスタンプ
 string TimeStampButtonClicked = _T("Nothing");
+
+// dialogbox.cppと共有
+extern int DelayTiming, DelayTime_ms;
+int DelayTimeUnique;
+
 //WinMain関数
 int WINAPI WinMain(_In_ HINSTANCE hThisInst, _In_opt_ HINSTANCE hPrevInst, _In_ LPSTR lpszArgs, _In_ int nWinMode)
 {
@@ -747,12 +753,6 @@ void bufferswitch(long index, ASIOBool processNow) {
 				start = std::chrono::system_clock::now();
 				// エディットボックスにボタンの押下時刻を表示
 				SendNowTimeToEdit(hEdit1, getMilliTime(start));
-				if (CountButtonClicked == 0) {
-					MarginTime.push_back(to_string(Num));  // 遅延時間をベクタの先頭要素に代入
-					MarginTime.push_back( TimeStampButtonClicked);   // 押下時刻をベクタの2番目の要素に代入
-					GetEditBoxTextFunc(hParentWindow);      // 被験者情報をベクタの最後に代入 
-				}
-				
 				if (CountButtonClicked) {
 					// 前回のボタン押下時刻との時間差を計算し、表示
 					auto time = start - before_start;
@@ -767,11 +767,11 @@ void bufferswitch(long index, ASIOBool processNow) {
 					// 実験方法が変則の場合
 					// ///////////////////////
 					/*ここにクリック音の再生タイミングをずらすためのプログラムを書く。*/
-					if (!(CountButtonClicked % 4)) {
+					if (!(CountButtonClicked % DelayTiming)) {
 						// ボタンの押下回数が4の倍数のとき、再生タイミングをずらす
-						NumberOfloops = NumberOfloops + 300;
+						CalcLateNumberOfloops(hParentWindow, &DelayTimeUnique, DelayTime_ms, lenBuffer, FS, inlatency, outlatency);
+						NumberOfloops = NumberOfloops + DelayTimeUnique;
 					}else if(NumberOfloops != TempNumberOfLoops) {
-						// 4の倍数ではない
 						NumberOfloops = TempNumberOfLoops;
 					}
 				}
@@ -1115,6 +1115,10 @@ bool LateIniFunc(HWND hWnd, WPARAM wParam) {
 		GetNowComboStr(hWnd);
 		// NumberOfloopsを計算
 		CalcLateNumberOfloops(hWnd, &NumberOfloops, Num, lenBuffer, FS, inlatency, outlatency);
+		// NumberOfloopsをstd::string型に変換
+		string stringnum = to_string(NumberOfloops);
+		// 画面上に表示
+		SetWindowText(hStaticNumberOfloops2, stringnum.c_str());
 		// グローバル変数にNumberOfLoopsの値を記憶させる
 		TempNumberOfLoops = NumberOfloops;
 
@@ -1217,26 +1221,21 @@ bool CalcLateNumberOfloops(HWND hwnd, int* NumberOfloops, int  Num, int lenbuffe
 	// NumberOfloopsの計算
 	*NumberOfloops = ((double)Num - (inlatency_ms + outlatency_ms + kairo)) * (double)rate / ((double)lenbuffer * 1000.0);
 
-	//メッセージボックスへの出力
-	_stprintf_s(NumberOfloopsInfo, LENSTR,
-		_T("入力レイテンシ: %f [ms]\n"
-		"出力レイテンシ: %f [ms]\n"
-		"入出力レイテンシ: %f [ms]\n"
-		"遅延させたい時間: %d [ms]\n"
-		"回路による遅延: %f [ms]\n"
-		"バッファ長: %d [points]\n"
-		"Fs: %d [Hz]\n"
-		"NumberOfloops = %d\n"
-		"NumberOfloops(double) = %f"),
-		inlatency_ms, outlatency_ms, inlatency_ms + outlatency_ms, Num, kairo, lenbuffer, rate, *NumberOfloops,
-		((double)Num - (inlatency_ms + outlatency_ms + kairo)) * (double)rate / ((double)lenbuffer * 1000.0));
+	////メッセージボックスへの出力
+	//_stprintf_s(NumberOfloopsInfo, LENSTR,
+	//	_T("入力レイテンシ: %f [ms]\n"
+	//	"出力レイテンシ: %f [ms]\n"
+	//	"入出力レイテンシ: %f [ms]\n"
+	//	"遅延させたい時間: %d [ms]\n"
+	//	"回路による遅延: %f [ms]\n"
+	//	"バッファ長: %d [points]\n"
+	//	"Fs: %d [Hz]\n"
+	//	"NumberOfloops = %d\n"
+	//	"NumberOfloops(double) = %f"),
+	//	inlatency_ms, outlatency_ms, inlatency_ms + outlatency_ms, Num, kairo, lenbuffer, rate, *NumberOfloops,
+	//	((double)Num - (inlatency_ms + outlatency_ms + kairo)) * (double)rate / ((double)lenbuffer * 1000.0));
 
-	MessageBox(hwnd, NumberOfloopsInfo, _T("計算結果"), MB_OK);
-
-	// NumberOfloopsをstd::string型に変換
-	string stringnum = to_string(*NumberOfloops);
-	// 画面上に表示
-	SetWindowText(hStaticNumberOfloops2, stringnum.c_str());
+	//MessageBox(hwnd, NumberOfloopsInfo, _T("計算結果"), MB_OK);
 
 	return true;
 
@@ -1265,8 +1264,8 @@ bool GetEditBoxTextFunc(HWND hwnd) {
 	string Old = lpstringOld;
 	string Name = lpstringName;
 
-	MarginTime.push_back(Old);
-	MarginTime.push_back(Name);
+	MarginTime.insert(MarginTime.begin(), Old);
+	MarginTime.insert(MarginTime.begin(), Name);
 
 	delete[] lpstringOld;
 	delete[] lpstringName;
@@ -1296,7 +1295,7 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		
 		// 遅延時間の設定
 		// 配列の削除
-	case ID_RESTART:
+	case ID_MENU_RESTART:
 		if (MessageBox(hwnd, _T("結果をファイルに書き込みましたか？"), _T("確認"), MB_YESNO) == IDYES) {
 			if (ClearMarginTime(hwnd, MarginTime)) {
 				MessageBox(hwnd, _T("結果を削除しました。"), _T("削除完了"), MB_OK);
@@ -1343,7 +1342,12 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			int itemIndex = SendMessage(GetDlgItem(hwnd, ID_STATIC_NORMALORIRREG), CB_GETCURSEL, 0, 0);
 			if (itemIndex != CB_ERR) {
-				if (itemIndex) LABNormal = false;
+				if (itemIndex) {
+					if (DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_MYDIALOG), hwnd, DialogProc) == -1) {
+						MessageBox(hwnd, _T("ダイアログボックスの作成に失敗しました。"), _T("エラー"), MB_OK);
+					}
+					LABNormal = false;
+				}
 				else LABNormal = true;
 			}
 		}
@@ -1447,6 +1451,18 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 			// 出力先ファイルをウィンドウ上に表示
 			RelativepathFromAbsolutepath(FileNameCSV, hwnd);
 			// 値の書き込み
+			GetEditBoxTextFunc(hParentWindow);                                            // 被験者情報をベクタの先頭に代入 
+			MarginTime.insert(MarginTime.begin(), to_string(Num));                 // 遅延時間をベクタの先頭に代入
+			MarginTime.insert(MarginTime.begin(), TimeStampButtonClicked);   // 押下時刻をベクタの先頭に代入
+			if (!LABNormal) {
+				string tempunique = _T("unique");
+				string stringDelayTiming = to_string(DelayTiming);
+				string stringDelayTime_ms = to_string(DelayTime_ms);
+				// 実験条件が変則の場合、ベクタの先頭に文字列を代入
+				MarginTime.insert(MarginTime.begin(), stringDelayTiming);        // 遅延のタイミング
+				MarginTime.insert(MarginTime.begin(), stringDelayTime_ms);    // 遅延時間
+				MarginTime.insert(MarginTime.begin(), tempunique);                // unique
+			}
 			WriteToCSV(hwnd, MarginTime, CSVFILENAME);
 		}
 		break;

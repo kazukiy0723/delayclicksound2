@@ -52,15 +52,16 @@ END
 
 IDR_MENU1 MENU
 BEGIN
-    MENUITEM "ASIO Information",            ID_ASIOINFORMATION
-    MENUITEM "Wave File Information",       ID_WAVEFILEINFORMATION
-    MENUITEM "Exit (Ctrl+X)",               ID_EXIT
-    MENUITEM "やり直し",                        40016
-    POPUP "編集"
+    POPUP "ファイル(F)"
+    BEGIN
+        MENUITEM "出力先csvファイルの指定",               ID_MENU_CSV_OUTPUT
+    END
+    POPUP "編集(E)"
     BEGIN
         MENUITEM "配列の中身を削除",                    ID_DELETE_ARRAY
+        MENUITEM "やり直し",                        ID_MENU_RESTART
     END
-    POPUP "設定"
+    POPUP "設定(S)"
     BEGIN
         POPUP "BPMの選択"
         BEGIN
@@ -83,10 +84,9 @@ BEGIN
             MENUITEM "40回",                         ID_MENU_NUM40
         END
     END
-    POPUP "ファイル(F)"
-    BEGIN
-        MENUITEM "出力先csvファイルの指定",               ID_MENU_CSV_OUTPUT
-    END
+    MENUITEM "ASIO Information",            ID_ASIOINFORMATION
+    MENUITEM "Wave File Information",       ID_WAVEFILEINFORMATION
+    MENUITEM "Exit (Ctrl+X)",               ID_EXIT
 END
 
 
@@ -98,6 +98,55 @@ END
 IDR_ACCELERATOR1 ACCELERATORS
 BEGIN
     "X",            ID_EXIT,                VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MYDIALOG DIALOGEX 0, 0, 311, 188
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,199,167,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,254,167,50,14
+    LTEXT           "遅延のタイミング:",IDC_STATIC,17,42,80,8
+    EDITTEXT        IDC_EDIT1,96,42,100,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "遅延時間[ms]:",IDC_STATIC,17,87,80,8
+    EDITTEXT        IDC_EDIT2,96,87,100,14,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_MYDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_MYDIALOG AFX_DIALOG_LAYOUT
+BEGIN
+    0
 END
 
 #endif    // 日本語 (日本) resources

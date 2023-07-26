@@ -2,8 +2,6 @@
 #include<tchar.h>
 #include<sstream>
 #include<fstream>
-
-
 #include"resource.h"
 #include"window.h"
 #include"main.h"
@@ -112,7 +110,7 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 	// ”íŒ±Òî•ñ‚Ìİ’è
 	HWND hSubject = CreateWindow(
 		_T("BUTTON"),
-		_T("”íŒ±Òî•ñ"),
+		_T("”íŒ±Òî•ñ‚Ì“ü—Í"),
 		WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
 		rGroupIni.left, rGroupIni.bottom + 10,
 		rGroupSetting.right - rGroupIni.left, 90,
