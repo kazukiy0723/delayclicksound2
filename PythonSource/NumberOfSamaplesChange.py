@@ -39,13 +39,13 @@ fig, ax = plt.subplots(1, 2, figsize=(15, 5))
 # 
 ax[0].plot(range(10, 36), mean_stdevs)
 ax[0].set_xlabel("Number of Samples")
-ax[0].set_ylabel("Evaluation index")
+ax[0].set_ylabel("Evaluation index [ms]")
 ax[0].set_title("STDEV")
 
 # 
 ax[1].plot(range(10, 36), mean_rmse)
 ax[1].set_xlabel("Number of Samples")
-ax[1].set_ylabel("Evaluation index")
+ax[1].set_ylabel("Evaluation index [ms]")
 ax[1].set_title("RMSE")
 
 # 
