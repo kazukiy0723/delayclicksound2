@@ -72,7 +72,7 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 	);
 	HWND hStaticFilename = CreateWindow(
 		_T("STATIC"),
-		_T(">>> No File"),
+		_T(">>> No file selected"),
 		WS_CHILD | WS_VISIBLE | SS_LEFT,
 		rGroupSetting.left, 390, 200, 25,
 		hWnd, (HMENU)ID_STATIC_FILENAME,
@@ -130,7 +130,7 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 	HWND hEditOld = CreateWindow(
 		_T("EDIT"),
 		_T(""),
-		WS_CHILD | WS_VISIBLE | ES_LEFT | WS_BORDER,
+		WS_CHILD | WS_VISIBLE | ES_LEFT | WS_BORDER | ES_NUMBER,
 		rGroupIni.left + 60, rGroupIni.bottom + 45, 70, 25,
 		hWnd,
 		(HMENU)ID_EDIT_OLD,
@@ -171,7 +171,7 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 	HWND hComboBPM = CreateWindow(
 		_T("COMBOBOX"),
 		NULL,
-		WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
+		WS_CHILD | WS_VISIBLE | WS_DISABLED | CBS_DROPDOWNLIST,
 		rGroupSetting.left + 100, rGroupSetting.top + 35, 70, 25,
 		hWnd, (HMENU)ID_STATIC_BPMNUM,
 		((LPCREATESTRUCT)(lParam))->hInstance, NULL
@@ -220,7 +220,7 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 	SendMessage(hComboTraialsNum, CB_ADDSTRING, 0, (LPARAM)_T("30"));
 	SendMessage(hComboTraialsNum, CB_ADDSTRING, 0, (LPARAM)_T("40"));
 	// ‰Šú‘I‘ğ€–Ú‚ğ"30"‚Éİ’è
-	SendMessage(hComboTraialsNum, CB_SETCURSEL, 1, 0);
+	SendMessage(hComboTraialsNum, CB_SETCURSEL, 2, 0);
 	
 	HWND hBPM_LAB = CreateWindow(
 		_T("STATIC"),

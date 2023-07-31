@@ -22,13 +22,16 @@ int DelayTime_ms = 10;
 INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
+    case WM_INITDIALOG:
+        temp1 = 0;
+        temp2 = 0;
+        SetDlgItemText(hwndDlg, IDC_EDIT1, _T("2"));
+        SetDlgItemText(hwndDlg, IDC_EDIT2, _T("100"));
+        break;
+
     case WM_COMMAND:
-        switch (LOWORD(wParam))
-        {
-        case WM_INITDIALOG:
-            temp1 = 0;
-            temp2 = 0;
-            break;
+        switch (LOWORD(wParam)){
+     
         case IDC_EDIT1:
             temp1 = 1;
             break;
@@ -57,6 +60,8 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
             return TRUE;
 
         }
+    default:
+        if (temp2) EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
         break;
     }
         return FALSE;

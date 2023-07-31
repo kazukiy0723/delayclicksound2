@@ -768,7 +768,7 @@ void bufferswitch(long index, ASIOBool processNow) {
 					// ///////////////////////
 					/*ここにクリック音の再生タイミングをずらすためのプログラムを書く。*/
 					if (!(CountButtonClicked % DelayTiming)) {
-						// ボタンの押下回数が4の倍数のとき、再生タイミングをずらす
+						// 再生タイミングをずらす
 						CalcLateNumberOfloops(hParentWindow, &DelayTimeUnique, DelayTime_ms, lenBuffer, FS, inlatency, outlatency);
 						NumberOfloops = NumberOfloops + DelayTimeUnique;
 					}else if(NumberOfloops != TempNumberOfLoops) {
@@ -1097,7 +1097,7 @@ bool OnFont(HWND hwnd) {
 	SendMessage(GetDlgItem(hwnd, ID_GROUP_SUBJECTINFO), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_EDIT_OLD), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_EDIT_NAME), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
-	
+	SendMessage(GetDlgItem(hwnd, ID_STATIC_COMBO_MS), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	// コンボボックス
 	SendMessage(GetDlgItem(hwnd, ID_LATEINI), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_LATESETTING), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
@@ -1333,7 +1333,7 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 				char itemData[10] = {0};
 				SendMessage(GetDlgItem(hwnd, ID_STATIC_TRIALS_NUM), CB_GETLBTEXT, itemIndex, (LPARAM)itemData);
 				int Temp = _ttol(itemData);
-				TempNumberOfTrials = Temp + 5;
+				TempNumberOfTrials = Temp;
 			}
 		}
 		break;
@@ -1437,7 +1437,14 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		// プッシュボタン
 	case ID_BUTTON_CSV:
 		if (HIWORD(wparam) == BN_CLICKED) {
-			
+			// 年齢と名前が書かれているかチェック
+			short length_1 = GetWindowTextLength(GetDlgItem(hwnd, ID_EDIT_OLD));
+			short length_2 = GetWindowTextLength(GetDlgItem(hwnd, ID_EDIT_NAME));
+			if (length_1 * length_2 == 0) {
+				// Edit Boxが空
+				MessageBox(hwnd, _T("名前と年齢のどちらか、もしくはその両方が未入力です。"), _T("警告"), MB_OK | MB_ICONWARNING);
+				break;
+			}
 			// ファイル選択用ダイアログの表示
 			SelectFile(hwnd, FileNameCSV);
 			// 既に開かれているかをチェック
@@ -1455,7 +1462,7 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 			MarginTime.insert(MarginTime.begin(), to_string(Num));                 // 遅延時間をベクタの先頭に代入
 			MarginTime.insert(MarginTime.begin(), TimeStampButtonClicked);   // 押下時刻をベクタの先頭に代入
 			if (!LABNormal) {
-				string tempunique = _T("unique");
+				string tempunique = _T("irregular");
 				string stringDelayTiming = to_string(DelayTiming);
 				string stringDelayTime_ms = to_string(DelayTime_ms);
 
