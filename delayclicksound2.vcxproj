@@ -147,7 +147,7 @@
     <ClCompile Include="include\ASIO_SDK\asiosdk\host\asiodrivers.cpp" />
     <ClCompile Include="include\ASIO_SDK\asiosdk\host\pc\asiolist.cpp" />
     <ClCompile Include="window.cpp" />
-    <ClCompile Include="ソース.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dialogbox.h" />
