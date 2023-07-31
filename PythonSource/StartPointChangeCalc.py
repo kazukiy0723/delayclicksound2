@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 
 #####################
 ## 設定
-filepath = "test731.csv"     # 読み込むファイルパス
-true_values = 60 / 90 * 1000 # rmseの真値
-StartPoint = 5               # 開始列
-EndPoint = 30                # 終了列
+filepath = "delay10ms_1.csv"    # 読み込むファイルパス
+true_values = 60 / 90 * 1000    # rmseの真値
+StartPoint = 3                  # 開始列
+EndPoint = 33                   # 終了列
 ##########################
 
 # 初期化 平均値を保存する配列
@@ -18,7 +18,7 @@ mean_rmse = []
 # csvファイルの読み込み
 df = pd.read_csv(filepath)
 
-# 開始列を1から31に変化させ、10列のデータを選択
+# 開始列を3から31に変化させ、10列のデータを選択
 for i in range(StartPoint, EndPoint):
     stdevs = []
     rmse = []
