@@ -61,7 +61,7 @@ BEGIN
         MENUITEM "”z—ñ‚Ì’†g‚ðíœ",                    ID_DELETE_ARRAY
         MENUITEM "‚â‚è’¼‚µ",                        ID_MENU_RESTART
     END
-    POPUP "Ý’è(S)"
+    POPUP "Ý’è(S)", INACTIVE
     BEGIN
         POPUP "BPM‚Ì‘I‘ð"
         BEGIN

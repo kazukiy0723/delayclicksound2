@@ -1458,6 +1458,7 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 				string tempunique = _T("unique");
 				string stringDelayTiming = to_string(DelayTiming);
 				string stringDelayTime_ms = to_string(DelayTime_ms);
+
 				// 実験条件が変則の場合、ベクタの先頭に文字列を代入
 				MarginTime.insert(MarginTime.begin(), stringDelayTiming);        // 遅延のタイミング
 				MarginTime.insert(MarginTime.begin(), stringDelayTime_ms);    // 遅延時間
