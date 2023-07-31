@@ -30,16 +30,25 @@ for i in range(StartPoint, EndPoint):
     mean_stdevs.append(np.mean(stdevs))
     mean_rmse.append(np.mean(rmse))
 
-# 標準偏差のプロット
-plt.figure(figsize=(10, 5))
-plt.plot(range(1, EndPoint), mean_stdevs)
-plt.xlabel("First index of data")
-plt.ylabel("Standard deviation [ms]")
+# Create a figure with two subplots (1 row, 2 columns)
+fig, ax = plt.subplots(1, 2, figsize=(15, 5))
+
+# Plot mean standard deviations on the first subplot
+ax[0].plot(range(1, EndPoint-StartPoint+1), mean_stdevs)
+ax[0].set_xlabel("First index of data")
+ax[0].set_ylabel("Standard deviation [ms]")
+
+# Plot mean RMSE on the second subplot
+ax[1].plot(range(1, EndPoint-StartPoint+1), mean_rmse)
+ax[1].set_xlabel("First index of data")
+ax[1].set_ylabel("RMSE [ms]")
+
+# Show the figure with two subplots
+plt.tight_layout()
 plt.show()
 
-# RMSEのプロット
-plt.figure(figsize=(10, 5))
-plt.plot(range(1, EndPoint), mean_rmse)
-plt.xlabel("First index of data")
-plt.ylabel("RMSE [ms]")
-plt.show()
+
+
+
+
+
