@@ -97,6 +97,13 @@ int WINAPI WinMain(_In_ HINSTANCE hThisInst, _In_opt_ HINSTANCE hPrevInst, _In_ 
 	WNDCLASSEX		wcl;
 	HACCEL			haccel;
 
+	// 二重起動防止
+	HANDLE hMutex = CreateMutex(NULL, TRUE, _T("MyAppMutex"));
+	if (GetLastError() == ERROR_ALREADY_EXISTS) {
+		MessageBox(NULL, _T("This Application is already running!"), _T("警告"), MB_OK |  MB_ICONWARNING);
+		return 0;
+	}
+
 	//ウィンドウクラスの定義
 	wcl.cbSize = sizeof(WNDCLASSEX);				//WNDCLASSEX構造体のサイズ
 	wcl.style = 0;									//ウィンドウクラススタイル
@@ -637,6 +644,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		DeleteObject(hFont1);
 		DeleteObject(hFont2);
 		DeleteObject(hFont3);
+
 		//ASIOデバイスの停止
 		asioresult = ASIOStop();
 		if (asioresult != ASE_OK) {
