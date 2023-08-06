@@ -6,20 +6,18 @@ import matplotlib.pyplot as plt
 
 ###################
 ## 設定
-filepath = "delay10ms_1.csv"
+filepath = "../../delay10ms_1.csv"
 start_index = 12
 Endlength = 32
 true_values = 60 / 90 * 1000 # rmseの真値
 ###################
 
 # csvファイルの読み込み
-df = pd.read_csv(filepath)
+df = pd.read_csv(filepath, header=None)
 
 # 初期化
 mean_stdevs = []
 mean_rmse = []
-
-
 
 # 
 for i in range(10, Endlength):

@@ -197,7 +197,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		// 追加
 		call_count = 1;
 		temp_count = 0;
-		NumberOfloops = 1;
+		NumberOfloops = 3;
 		TempNumberOfLoops = 1;
 		CountButtonClicked = 0;
 		LABNormal = true;
@@ -1229,6 +1229,10 @@ bool CalcLateNumberOfloops(HWND hwnd, int* NumberOfloops, int  Num, int lenbuffe
 	// NumberOfloopsの計算
 	*NumberOfloops = ((double)Num - (inlatency_ms + outlatency_ms + kairo)) * (double)rate / ((double)lenbuffer * 1000.0);
 
+	// NumberOfloops == 0のとき、1に補正
+	if (*NumberOfloops < 1) *NumberOfloops = 1;
+
+
 	////メッセージボックスへの出力
 	//_stprintf_s(NumberOfloopsInfo, LENSTR,
 	//	_T("入力レイテンシ: %f [ms]\n"
@@ -1324,6 +1328,7 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		// 基本情報
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			SendLate2Combo(hwnd, wparam);
+			LateIniFunc(hwnd, wparam);
 		}
 		break;
 		
@@ -1453,18 +1458,12 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 				MessageBox(hwnd, _T("名前と年齢のどちらか、もしくはその両方が未入力です。"), _T("警告"), MB_OK | MB_ICONWARNING);
 				break;
 			}
-			// ファイル選択用ダイアログの表示
-			SelectFile(hwnd, FileNameCSV);
 			// 既に開かれているかをチェック
 			if (!CheckCanWriteFile(hwnd, FileNameCSV)) {
 				// ファイルを開くのに失敗した場合、書き込みが不可能である可能性が高い
 				MessageBox(hwnd, _T("ファイルに書き込めません。既に開かれている可能性があります。\r\nファイルを閉じてから再度ボタンを押してください。"), _T("警告"), MB_OK | MB_ICONWARNING);
 				break;
 			}
-			// パス名をstring型に変換
-			CSVFILENAME = FileNameCSV;
-			// 出力先ファイルをウィンドウ上に表示
-			RelativepathFromAbsolutepath(FileNameCSV, hwnd);
 			// 値の書き込み
 			GetEditBoxTextFunc(hParentWindow);                                            // 被験者情報をベクタの先頭に代入 
 			MarginTime.insert(MarginTime.begin(), to_string(Num));                 // 遅延時間をベクタの先頭に代入
@@ -1477,7 +1476,7 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 				// 実験条件が変則の場合、ベクタの先頭に文字列を代入
 				MarginTime.insert(MarginTime.begin(), stringDelayTiming);        // 遅延のタイミング
 				MarginTime.insert(MarginTime.begin(), stringDelayTime_ms);    // 遅延時間
-				MarginTime.insert(MarginTime.begin(), tempunique);                // unique
+				MarginTime.insert(MarginTime.begin(), tempunique);                // irregular
 			}
 			WriteToCSV(hwnd, MarginTime, CSVFILENAME);
 		}

@@ -16,10 +16,10 @@ mean_stdevs = []
 mean_rmse = []
 
 # csvファイルの読み込み
-df = pd.read_csv(filepath)
+df = pd.read_csv(filepath, header=None)
 
 # 開始列を3から31に変化させ、10列のデータを選択
-for i in range(StartPoint, EndPoint):
+for i in range(StartPoint, EndPoint+1):
     stdevs = []
     rmse = []
     
