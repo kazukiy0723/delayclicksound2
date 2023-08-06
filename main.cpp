@@ -921,15 +921,9 @@ bool GetMarginTime(std::chrono::system_clock::duration time) {
 bool WriteToCSV(HWND hwnd, vector<string>& MarginTime, const string& filename) {
 	char Temp[MAX_PATH];
 	_stprintf_s(Temp, MAX_PATH,
-		_T("以下のファイルに書き込みます。よろしいですか？\r\n%s"),
+		_T("以下のファイルに書き込みました。\r\n%s"),
 		filename.c_str());
 
-	// MargintTimeが空の場合
-	if (MarginTime.empty()) {
-		MessageBox(hwnd, _T("書き込むものがありません。"), NULL, MB_OK);
-		return true;
-	}
-	else if (MessageBox(hwnd, Temp, _T("出力先ファイルの確認"), MB_YESNO) == IDYES){
 	// 出力ファイルストリームオブジェクトを作成
 	// ファイルが存在しない場合は新たにファイルを作成、存在する場合はファイルの末尾に書き込み
 		ofstream file(filename, ios::app);
@@ -946,16 +940,13 @@ bool WriteToCSV(HWND hwnd, vector<string>& MarginTime, const string& filename) {
 		// ベクターの中身の削除
 		MarginTime.clear();
 		// 書き込み確認
-		MessageBox(hwnd, _T("ファイルに書き込みました。"), _T("出力確認"), MB_OK);
-		//SetWindowText(hwnd, filename.c_str());
+		MessageBox(hwnd, Temp, _T("結果の出力先の確認"), MB_OK);
 		// 押下回数の更新
 		CountButtonClicked = 0;
 		SetWindowText(GetDlgItem(hwnd, ID_STATIC_COUNTBUTTONCLICKED_2), _T("0"));
 		// エディットボックスの表示内容をクリア
 		SetWindowText(hEdit1, _T(""));
 
-	}
-	
 	return true;
 }
 
@@ -1229,7 +1220,7 @@ bool CalcLateNumberOfloops(HWND hwnd, int* NumberOfloops, int  Num, int lenbuffe
 	// NumberOfloopsの計算
 	*NumberOfloops = ((double)Num - (inlatency_ms + outlatency_ms + kairo)) * (double)rate / ((double)lenbuffer * 1000.0);
 
-	// NumberOfloops == 0のとき、1に補正
+	// NumberOfloops == 0のとき、1に更新
 	if (*NumberOfloops < 1) *NumberOfloops = 1;
 
 
@@ -1461,7 +1452,7 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 			// 既に開かれているかをチェック
 			if (!CheckCanWriteFile(hwnd, FileNameCSV)) {
 				// ファイルを開くのに失敗した場合、書き込みが不可能である可能性が高い
-				MessageBox(hwnd, _T("ファイルに書き込めません。既に開かれている可能性があります。\r\nファイルを閉じてから再度ボタンを押してください。"), _T("警告"), MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, _T("ファイルに書き込めません。ファイルが選択されていないか既に開かれている可能性があります。"), _T("警告"), MB_OK | MB_ICONWARNING);
 				break;
 			}
 			// 値の書き込み
