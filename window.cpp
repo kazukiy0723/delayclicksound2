@@ -331,7 +331,7 @@ bool ReadIniFile(HWND hWnd, LPARAM lParam) {
 	);
 	HWND lateDataCombo_2 = CreateWindow(
 		_T("COMBOBOX"), NULL, WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_DISABLED,
-		rGroupIni2.left + 65, rGroupIni2.top + 85, 80, 50,
+		rGroupIni2.left + 65, rGroupIni2.top + 85, 85, 50,
 		hWnd, (HMENU)ID_LATEINI_2,
 		((LPCREATESTRUCT)(lParam))->hInstance, NULL
 	);
@@ -356,7 +356,7 @@ bool ReadIniFile(HWND hWnd, LPARAM lParam) {
 	CreateWindow(
 		_T("COMBOBOX"), NULL,
 		WS_CHILD | WS_VISIBLE | CBS_SORT | CBS_DROPDOWN | ES_NUMBER | WS_DISABLED,
-		rGroupIni2.left + 65, rGroupIni2.top + 135, 80, 50,
+		rGroupIni2.left + 65, rGroupIni2.top + 135, 85, 50,
 		hWnd, (HMENU)ID_LATESETTING_2,
 		((LPCREATESTRUCT)(lParam))->hInstance, NULL);
 

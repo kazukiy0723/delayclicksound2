@@ -59,7 +59,7 @@ extern int lenBuffer;
 
 // 追加変数
 extern HWND hStaticNowTime, hStaticTime, hEdit1, htaticNumberOfloops, hStaticNumberOfloops2;
-HFONT hFont1, hFont2, hFont3;
+HFONT hFont1, hFont2, hFont3, hFont4;
 RECT recthEdit1 = { 198, 98, 702, 402 };
 int call_count, temp_count;
 bool wavePlayed = false;
@@ -645,7 +645,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		DeleteObject(hFont1);
 		DeleteObject(hFont2);
 		DeleteObject(hFont3);
-
+		DeleteObject(hFont4);
 		//ASIOデバイスの停止
 		asioresult = ASIOStop();
 		if (asioresult != ASE_OK) {
@@ -1077,6 +1077,9 @@ bool OnFont(HWND hwnd) {
 	hFont3 = CreateFont(45, 0, 0, 0, FW_BOLD, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
 		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("メイリオ"));
 
+	hFont4 = CreateFont(18, 0, 0, 0, FW_MEDIUM, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("メイリオ"));
+
 	SendMessage(hEdit1, WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	SendMessage(hStaticTime, WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	// ステティックコントロール
@@ -1094,6 +1097,7 @@ bool OnFont(HWND hwnd) {
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_LAB), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_NORMALORIRREG), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_GROUP_LATEDATA), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_GROUP_LATEDATA_2), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_FILENAME), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_OLD), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_NAME), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
@@ -1101,11 +1105,23 @@ bool OnFont(HWND hwnd) {
 	SendMessage(GetDlgItem(hwnd, ID_EDIT_OLD), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_EDIT_NAME), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_COMBO_MS), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_STATIC_COMBO_MS_2), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_STATIC_LATEDATATIMING), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
+
 	// コンボボックス
 	SendMessage(GetDlgItem(hwnd, ID_LATEINI), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_LATEINI_2), WM_SETFONT, (WPARAM)hFont4, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_LATESETTING), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_LATESETTING_2), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_STATIC_LATESETTING_2), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
+
 	// プッシュボタン
 	SendMessage(GetDlgItem(hwnd, ID_BUTTON_CSV), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
+	
+	// エディットボックス
+	SendMessage(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
+
 	return true;
 }
 
@@ -1137,6 +1153,7 @@ bool LateIniFunc_2(HWND hWnd, WPARAM wParam) {
 	char* lpstringDelayTiming = new char[50];
 	GetWindowText(GetDlgItem(hWnd, ID_EDIT_LATEDATA_TIMING), lpstringDelayTiming, 50);
 	DelayTiming = atoi(lpstringDelayTiming);
+
 	DelayTime_ms = LocalDelayTIme;
 
 	delete[] lpstringDelayTiming;
@@ -1248,8 +1265,9 @@ bool SendLate2Combo_2(HWND hwnd, WPARAM wParam) {
 }
 
 // コンボボックスで現在選択されている項目の文字列を取得する関数
-bool GetNowComboStr(HWND hWnd, int comboID) {
+int GetNowComboStr(HWND hWnd, int comboID) {
 
+	int LocalNum;
 	//コンボボックスで現在選択されている項目のインデックスを取得
 	int intCurrentIndex = SendMessage(GetDlgItem(hWnd, (int)comboID), CB_GETCURSEL, 0, 0);
 
@@ -1261,12 +1279,12 @@ bool GetNowComboStr(HWND hWnd, int comboID) {
 		// コンボボックスの一覧から選択した項目の文字列を取得
 		if (SendMessage(GetDlgItem(hWnd, (int)comboID), CB_GETLBTEXT, intCurrentIndex, (LPARAM)pszBuf) != CB_ERR) {
 			// char*型をint型に変換
-			 int LocalNum = atoi(pszBuf);
+			 LocalNum = atoi(pszBuf);
 		}
 
 		delete[] pszBuf;
 	}
-	return true;
+	return LocalNum;
 }
 
 
@@ -1437,12 +1455,22 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 					EnableWindow(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), TRUE);
 					EnableWindow(GetDlgItem(hwnd, ID_LATEINI_2), TRUE);
 					EnableWindow(GetDlgItem(hwnd, ID_LATESETTING_2), TRUE);
+					// 遅延のタイミング
+					char* lpstringDelayTiming = new char[50];
+					GetWindowText(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), lpstringDelayTiming, 50);
+					DelayTiming = atoi(lpstringDelayTiming);
+					//コンボボックスで現在選択されている項目のインデックスを取得
+					int LocalDelayTIme = GetNowComboStr(hwnd, ID_LATESETTING_2);
+					DelayTime_ms = LocalDelayTIme;
+
 					LABNormal = false;
+					delete[] lpstringDelayTiming;
 				}
 				else {
 					EnableWindow(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), FALSE);
 					EnableWindow(GetDlgItem(hwnd, ID_LATEINI_2), FALSE);
 					EnableWindow(GetDlgItem(hwnd, ID_LATESETTING_2), FALSE);
+					DelayTiming = 1;
 					LABNormal = true;
 				}
 			}

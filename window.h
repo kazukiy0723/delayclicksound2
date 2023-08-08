@@ -22,7 +22,7 @@ bool LateIniFunc(HWND, WPARAM);
 bool CalcLateNumberOfloops(HWND, int*, int, int, int, long, long);
 bool SendLate2Combo(HWND, WPARAM);
 //コンボボックスで現在選択されている項目のインデックスを取得
-bool GetNowComboStr(HWND, int);
+int GetNowComboStr(HWND, int);
 // エディットボックスを自動的に下までスクロールする
 bool ScrollToBottom(HWND);
 // 得られた時間差をcsvファイルに書き込むための関数
