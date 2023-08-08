@@ -22,7 +22,7 @@ bool LateIniFunc(HWND, WPARAM);
 bool CalcLateNumberOfloops(HWND, int*, int, int, int, long, long);
 bool SendLate2Combo(HWND, WPARAM);
 //コンボボックスで現在選択されている項目のインデックスを取得
-bool GetNowComboStr(HWND);
+bool GetNowComboStr(HWND, int);
 // エディットボックスを自動的に下までスクロールする
 bool ScrollToBottom(HWND);
 // 得られた時間差をcsvファイルに書き込むための関数
@@ -53,10 +53,16 @@ bool GetEditBoxTextFunc(HWND);
 #define ID_STATIC_FILENAME 2017
 #define ID_STATIC_OLD 2018
 #define ID_STATIC_NAME 2019
+#define ID_STATIC_LATEDATACOMBO_2 2020
+#define ID_STATIC_LATEDATATIMING 2021
+#define ID_STATIC_LATESETTING_2 2022
+#define ID_STATIC_COMBO_MS_2 2023
+#define ID_LATESETTING_2 2024
 
 // コンボボックス
 #define ID_LATEINI  3001
 #define ID_LATESETTING 3002
+#define ID_LATEINI_2 3003
 
 // プッシュボタン
 #define ID_BUTTON_CSV 4001
@@ -65,7 +71,9 @@ bool GetEditBoxTextFunc(HWND);
 #define ID_GROUP_LATEDATA 5001
 #define ID_GROUP_SETTING 5002
 #define ID_GROUP_SUBJECTINFO 5003
+#define ID_GROUP_LATEDATA_2 5004
 
 // エディットボックス
 #define ID_EDIT_OLD 6001
 #define ID_EDIT_NAME 6002
+#define ID_EDIT_LATEDATA_TIMING 6003

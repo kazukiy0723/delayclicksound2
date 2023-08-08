@@ -97,12 +97,12 @@ int WINAPI WinMain(_In_ HINSTANCE hThisInst, _In_opt_ HINSTANCE hPrevInst, _In_ 
 	WNDCLASSEX		wcl;
 	HACCEL			haccel;
 
-	// 二重起動防止
-	HANDLE hMutex = CreateMutex(NULL, TRUE, _T("MyAppMutex"));
-	if (GetLastError() == ERROR_ALREADY_EXISTS) {
-		MessageBox(NULL, _T("This Application is already running!"), _T("警告"), MB_OK |  MB_ICONWARNING);
-		return 0;
-	}
+	//// 二重起動防止
+	//HANDLE hMutex = CreateMutex(NULL, TRUE, _T("MyAppMutex"));
+	//if (GetLastError() == ERROR_ALREADY_EXISTS) {
+	//	MessageBox(NULL, _T("This Application is already running!"), _T("警告"), MB_OK |  MB_ICONWARNING);
+	//	return 0;
+	//}
 
 	//ウィンドウクラスの定義
 	wcl.cbSize = sizeof(WNDCLASSEX);				//WNDCLASSEX構造体のサイズ
@@ -201,7 +201,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		TempNumberOfLoops = 1;
 		CountButtonClicked = 0;
 		LABNormal = true;
-		TempNumberOfTrials = 35;
+		TempNumberOfTrials = 40;
 		//ASIOデバイス用メモリ領域の確保
 		if (asioDrivers == NULL) {
 			asioDrivers = new AsioDrivers();
@@ -436,9 +436,10 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			SupportASIOOutputReady == true ? _T("Supported.") : _T("Not Supported."));
 		MessageBox(NULL, strASIOInfo, _T("ASIO"), MB_OK);
 
-		// コンボボックスの作成とiniファイルの読み込み
+		// 遅延時間の設定用コンボボックスの作成とiniファイルの読み込み
 		ReadIniFile(hwnd, lparam);
 
+		
 		//WAVEファイルのオープン
 		if ((hMmio = mmioOpen(wavefilename, NULL, MMIO_READ)) == NULL) {
 			//ファイルをオープンできなかった場合の処理
@@ -910,8 +911,11 @@ bool SendMarginTimeToEdit(std::chrono::system_clock::duration time) {
 // 時間差を配列に代入していくための関数
 bool GetMarginTime(std::chrono::system_clock::duration time) {
 
+	string stringTime;
+
 	auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(time).count();
-	string stringTime = to_string(msec);
+	if (msec < 1000) stringTime = to_string(msec);
+	else stringTime = _T("false"); 
 	MarginTime.push_back(stringTime);
 
 	return true;
@@ -1111,7 +1115,7 @@ bool OnFont(HWND hwnd) {
 bool LateIniFunc(HWND hWnd, WPARAM wParam) {
 
 		//コンボボックスで現在選択されている項目のインデックスを取得
-		GetNowComboStr(hWnd);
+		Num = GetNowComboStr(hWnd, ID_LATESETTING);
 		// NumberOfloopsを計算
 		CalcLateNumberOfloops(hWnd, &NumberOfloops, Num, lenBuffer, FS, inlatency, outlatency);
 		// NumberOfloopsをstd::string型に変換
@@ -1120,6 +1124,22 @@ bool LateIniFunc(HWND hWnd, WPARAM wParam) {
 		SetWindowText(hStaticNumberOfloops2, stringnum.c_str());
 		// グローバル変数にNumberOfLoopsの値を記憶させる
 		TempNumberOfLoops = NumberOfloops;
+
+	return true;
+}
+
+// コンボボックス(変則var)の項目が変更された時
+bool LateIniFunc_2(HWND hWnd, WPARAM wParam) {
+
+	//コンボボックスで現在選択されている項目のインデックスを取得
+	int LocalDelayTIme = GetNowComboStr(hWnd, ID_LATESETTING_2);
+	// 遅延のタイミング
+	char* lpstringDelayTiming = new char[50];
+	GetWindowText(GetDlgItem(hWnd, ID_EDIT_LATEDATA_TIMING), lpstringDelayTiming, 50);
+	DelayTiming = atoi(lpstringDelayTiming);
+	DelayTime_ms = LocalDelayTIme;
+
+	delete[] lpstringDelayTiming;
 
 	return true;
 }
@@ -1172,27 +1192,76 @@ bool SendLate2Combo(HWND hwnd, WPARAM wParam) {
 			
 			delete[] pszBuf;
 		}
-		
 	
+	return true;
+}
+// コンボボックス1で選択されたキー名に対応した遅延時間をコンボボックスに詰める。
+bool SendLate2Combo_2(HWND hwnd, WPARAM wParam) {
+
+
+	//コンボボックスで現在選択されている項目のインデックスを取得
+	int intCurrentIndex = SendMessage(GetDlgItem(hwnd, (int)ID_LATEINI_2), CB_GETCURSEL, 0, 0);
+
+	// 現在選択されている項目のの文字列の長さを取得
+	int intTxtLen = SendMessage(GetDlgItem(hwnd, (int)ID_LATEINI_2), CB_GETLBTEXTLEN, intCurrentIndex, 0);
+
+	if (intTxtLen != CB_ERR) {
+		char* pszBuf = new char[intTxtLen + 1];
+		if (SendMessage(GetDlgItem(hwnd, ID_LATEINI_2), CB_GETLBTEXT, intCurrentIndex, (LPARAM)pszBuf) != CB_ERR) {
+			char Path[MAX_PATH + 1];
+			char settingpath[MAX_PATH + 1];
+			if (GetModuleFileName(NULL, Path, MAX_PATH) != 0) {
+				char drive[MAX_PATH + 1], dir[MAX_PATH + 1], fname[MAX_PATH + 1], ext[MAX_PATH + 1];
+				// パス名を分解
+				_splitpath(Path, drive, dir, fname, ext);
+				_stprintf_s(settingpath, MAX_PATH + 1, _T("%s%ssetting.ini"), drive, dir);
+			}
+			char latedata[256];
+			// iniファイルの読み込み
+			GetPrivateProfileString(pszBuf, _T("data"), _T("Error"), latedata, sizeof(latedata), settingpath);
+
+			// コンボボックスの中身を消去
+			while (SendMessage(GetDlgItem(hwnd, (int)ID_LATESETTING_2), CB_GETCOUNT, 0, 0)) {
+				SendMessage(GetDlgItem(hwnd, (int)ID_LATESETTING_2), CB_DELETESTRING, 0, 0);
+			}
+
+			stringstream ss, tt;
+			ss << latedata;
+			string s, t;
+
+			int i = 0;
+			while (getline(ss, s, ',')) {
+				char* cstr = new char[s.size() + 1];
+				char_traits<char>::copy(cstr, s.c_str(), s.size() + 1);
+				// コンボボックスに文字列を挿入
+				SendMessage(GetDlgItem(hwnd, ID_LATESETTING_2), CB_INSERTSTRING, i, (LPARAM)cstr);
+				i++;
+			}
+			// コンボボックスに先頭の要素をセット
+			SendMessage(GetDlgItem(hwnd, ID_LATESETTING_2), CB_SETCURSEL, 0, 0);
+		}
+
+		delete[] pszBuf;
+	}
 
 	return true;
 }
 
 // コンボボックスで現在選択されている項目の文字列を取得する関数
-bool GetNowComboStr(HWND hWnd) {
+bool GetNowComboStr(HWND hWnd, int comboID) {
 
 	//コンボボックスで現在選択されている項目のインデックスを取得
-	int intCurrentIndex = SendMessage(GetDlgItem(hWnd, (int)ID_LATESETTING), CB_GETCURSEL, 0, 0);
+	int intCurrentIndex = SendMessage(GetDlgItem(hWnd, (int)comboID), CB_GETCURSEL, 0, 0);
 
 	// コンボボックスの現在選択されている項目の文字列の長さを取得
-	int intTxtLen = SendMessage(GetDlgItem(hWnd, (int)ID_LATESETTING), CB_GETLBTEXTLEN, intCurrentIndex, 0);
+	int intTxtLen = SendMessage(GetDlgItem(hWnd, (int)comboID), CB_GETLBTEXTLEN, intCurrentIndex, 0);
 
 	if (intTxtLen != CB_ERR) {
 		char* pszBuf = new char[intTxtLen + 1];
 		// コンボボックスの一覧から選択した項目の文字列を取得
-		if (SendMessage(GetDlgItem(hWnd, (int)ID_LATESETTING), CB_GETLBTEXT, intCurrentIndex, (LPARAM)pszBuf) != CB_ERR) {
+		if (SendMessage(GetDlgItem(hWnd, (int)comboID), CB_GETLBTEXT, intCurrentIndex, (LPARAM)pszBuf) != CB_ERR) {
 			// char*型をint型に変換
-			Num = atoi(pszBuf);
+			 int LocalNum = atoi(pszBuf);
 		}
 
 		delete[] pszBuf;
@@ -1329,6 +1398,21 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 			LateIniFunc(hwnd, wparam);
 		}
 		break;
+
+	case ID_LATEINI_2:
+		// 基本情報(変則var)
+		if (HIWORD(wparam) == CBN_SELCHANGE) {
+			SendLate2Combo_2(hwnd, wparam);
+			LateIniFunc_2(hwnd, wparam);
+		}
+		break;
+	case ID_LATESETTING_2:
+		//　詳細情報(変則var)
+		if (HIWORD(wparam) == CBN_SELCHANGE) {
+			LateIniFunc_2(hwnd, wparam);
+		}
+		break;
+
 	// 取得回数の設定
 	case ID_STATIC_TRIALS_NUM:
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
@@ -1347,12 +1431,20 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 			int itemIndex = SendMessage(GetDlgItem(hwnd, ID_STATIC_NORMALORIRREG), CB_GETCURSEL, 0, 0);
 			if (itemIndex != CB_ERR) {
 				if (itemIndex) {
-					if (DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_MYDIALOG), hwnd, DialogProc) == -1) {
+					/*if (DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_MYDIALOG), hwnd, DialogProc) == -1) {
 						MessageBox(hwnd, _T("ダイアログボックスの作成に失敗しました。"), _T("エラー"), MB_OK);
-					}
+					}*/
+					EnableWindow(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), TRUE);
+					EnableWindow(GetDlgItem(hwnd, ID_LATEINI_2), TRUE);
+					EnableWindow(GetDlgItem(hwnd, ID_LATESETTING_2), TRUE);
 					LABNormal = false;
 				}
-				else LABNormal = true;
+				else {
+					EnableWindow(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), FALSE);
+					EnableWindow(GetDlgItem(hwnd, ID_LATEINI_2), FALSE);
+					EnableWindow(GetDlgItem(hwnd, ID_LATESETTING_2), FALSE);
+					LABNormal = true;
+				}
 			}
 		}
 		break;
@@ -1414,15 +1506,15 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 	// 試行回数
 	///	/////////
 	case ID_MENU_NUM20:
-		TempNumberOfTrials = 25;
+		TempNumberOfTrials = 20;
 		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_TRIALS_NUM), _T("20"));
 		break;
 	case ID_MENU_NUM30:
-		TempNumberOfTrials = 35;
+		TempNumberOfTrials = 30;
 		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_TRIALS_NUM), _T("30"));
 		break;
 	case ID_MENU_NUM40:
-		TempNumberOfTrials = 45;
+		TempNumberOfTrials = 40;
 		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_TRIALS_NUM), _T("40"));
 		break;
 		///////////////

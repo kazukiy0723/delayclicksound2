@@ -11,6 +11,7 @@ using namespace std;
 RECT rButtonClickedTime = {30, 70, 530, 430};
 RECT rGroupIni = {rButtonClickedTime.right + 15, rButtonClickedTime.top, 725, 260};
 RECT rGroupSetting = {rGroupIni.right + 5, rGroupIni.top, rGroupIni.right + 5 + 190, 260};
+RECT rGroupIni2 = { rGroupSetting.right + 5, rGroupSetting.top, rGroupSetting.right + 5 + 190, 260 };
 
 HWND hStaticNowTime, hStaticTime, hEdit1, htaticNumberOfloops, hStaticNumberOfloops2;
 
@@ -290,7 +291,76 @@ bool ReadIniFile(HWND hWnd, LPARAM lParam) {
 		hWnd, (HMENU)ID_GROUP_LATEDATA,
 		((LPCREATESTRUCT)(lParam))->hInstance, NULL
 	);
+	//-------------------------------------------------------------------------
+	//*遅延時間設定用グループボックスの作成1（変則var)*/
+	HWND hGruoplatedata_2 = CreateWindow(
+		_T("BUTTON"),
+		_T("遅延時間の設定（変則)"),
+		WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
+		rGroupIni2.left, rGroupIni2.top, rGroupIni2.right - rGroupIni2.left, rGroupIni2.bottom - rGroupIni2.top,
+		hWnd, (HMENU)ID_GROUP_LATEDATA_2,
+		((LPCREATESTRUCT)(lParam))->hInstance, NULL
+	);
 
+	HWND hStaticlatedataTiming = CreateWindow(
+		_T("STATIC"),
+		_T("タイミング:"),
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		rGroupIni2.left + 10, rGroupIni2.top + 35, 100, 25,
+		hWnd, (HMENU)ID_STATIC_LATEDATATIMING,
+		((LPCREATESTRUCT)(lParam))->hInstance, NULL
+	);
+	HWND hEditLateDataTiming = CreateWindow(
+		_T("EDIT"),
+		_T("2"),
+		WS_CHILD | WS_VISIBLE | ES_LEFT | WS_BORDER | ES_NUMBER |  WS_DISABLED,
+		rGroupIni2.left + 115, rGroupIni2.top + 35, 40, 25,
+		hWnd,
+		(HMENU)ID_EDIT_LATEDATA_TIMING,
+		((LPCREATESTRUCT)(lParam))->hInstance,
+		NULL
+	);
+
+	HWND hStaticlatedataCombo_2 = CreateWindow(
+		_T("STATIC"),
+		_T("基本:"),
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		rGroupIni2.left + 10, rGroupIni2.top + 85, 50, 25,
+		hWnd, (HMENU)ID_STATIC_LATEDATACOMBO_2,
+		((LPCREATESTRUCT)(lParam))->hInstance, NULL
+	);
+	HWND lateDataCombo_2 = CreateWindow(
+		_T("COMBOBOX"), NULL, WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_DISABLED,
+		rGroupIni2.left + 65, rGroupIni2.top + 85, 80, 50,
+		hWnd, (HMENU)ID_LATEINI_2,
+		((LPCREATESTRUCT)(lParam))->hInstance, NULL
+	);
+
+	HWND hStaticlatesetting_2 = CreateWindow(
+		_T("STATIC"),
+		_T("詳細: "),
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		rGroupIni2.left + 10, rGroupIni2.top + 135, 50, 25,
+		hWnd, (HMENU)ID_STATIC_LATESETTING_2,
+		((LPCREATESTRUCT)(lParam))->hInstance, NULL
+	);
+	HWND hStaticlatedataCombo_MS_2 = CreateWindow(
+		_T("STATIC"),
+		_T("[ms]"),
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		rGroupIni2.right - 37, rGroupIni2.top + 141, 35, 25,
+		hWnd, (HMENU)ID_STATIC_COMBO_MS_2,
+		((LPCREATESTRUCT)(lParam))->hInstance, NULL
+	);
+
+	CreateWindow(
+		_T("COMBOBOX"), NULL,
+		WS_CHILD | WS_VISIBLE | CBS_SORT | CBS_DROPDOWN | ES_NUMBER | WS_DISABLED,
+		rGroupIni2.left + 65, rGroupIni2.top + 135, 80, 50,
+		hWnd, (HMENU)ID_LATESETTING_2,
+		((LPCREATESTRUCT)(lParam))->hInstance, NULL);
+
+	/*-----------------------------------------------------------------------------------*/
 	HWND hStaticlatedataCombo = CreateWindow(
 		_T("STATIC"),
 		_T("基本:"),
@@ -313,10 +383,12 @@ bool ReadIniFile(HWND hWnd, LPARAM lParam) {
 		char_traits<char>::copy(cstr, s.c_str(), s.size() + 1);
 		// コンボボックスに文字列を挿入
 		SendMessage(GetDlgItem(hWnd, ID_LATEINI), CB_INSERTSTRING, i, (LPARAM)cstr);
+		SendMessage(GetDlgItem(hWnd, ID_LATEINI_2), CB_INSERTSTRING, i, (LPARAM)cstr);
 		i++;
 	}
 	// コンボボックスに先頭の要素をセット
 	SendMessage(GetDlgItem(hWnd, ID_LATEINI), CB_SETCURSEL, 0, 0);
+	SendMessage(GetDlgItem(hWnd, ID_LATEINI_2), CB_SETCURSEL, 0, 0);
 
 	// 2個目のコンボボックス
 	HWND hStaticlatesetting = CreateWindow(
@@ -358,6 +430,7 @@ bool ReadIniFile(HWND hWnd, LPARAM lParam) {
 				char* tstr = new char[t.size() + 1];
 				std::char_traits<char>::copy(tstr, t.c_str(), t.size() + 1);
 				SendMessage(GetDlgItem(hWnd, (int)ID_LATESETTING), CB_INSERTSTRING, i, (LPARAM)tstr);
+				SendMessage(GetDlgItem(hWnd, (int)ID_LATESETTING_2), CB_INSERTSTRING, i, (LPARAM)tstr);
 				i++;
 			}
 		}
@@ -365,11 +438,10 @@ bool ReadIniFile(HWND hWnd, LPARAM lParam) {
 		delete[] pszBuf;
 	}
 	SendMessage(GetDlgItem(hWnd, (int)ID_LATESETTING), CB_SETCURSEL, 0, 0);
+	SendMessage(GetDlgItem(hWnd, (int)ID_LATESETTING_2), CB_SETCURSEL, 0, 0);
 
-	// NumberOfloopsの初期値をセット
-	// 
 	//コンボボックスで現在選択されている項目のインデックスを取得
-	GetNowComboStr(hWnd);
+	GetNowComboStr(hWnd, ID_LATESETTING);
 	// NumberOfloopsを計算
 	CalcLateNumberOfloops(hWnd, &NumberOfloops, Num, lenBuffer, FS, inlatency, outlatency);
 
