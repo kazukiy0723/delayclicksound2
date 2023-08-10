@@ -59,7 +59,7 @@ extern int lenBuffer;
 
 // 追加変数
 extern HWND hStaticNowTime, hStaticTime, hEdit1, htaticNumberOfloops, hStaticNumberOfloops2;
-HFONT hFont1, hFont2, hFont3, hFont4;
+HFONT hFont1, hFont2, hFont3, hFont4, hFont5;
 RECT recthEdit1 = { 198, 98, 702, 402 };
 int call_count, temp_count;
 bool wavePlayed = false;
@@ -646,6 +646,8 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		DeleteObject(hFont2);
 		DeleteObject(hFont3);
 		DeleteObject(hFont4);
+		DeleteObject(hFont5);
+
 		//ASIOデバイスの停止
 		asioresult = ASIOStop();
 		if (asioresult != ASE_OK) {
@@ -786,6 +788,12 @@ void bufferswitch(long index, ASIOBool processNow) {
 				}
 				// 実験終了のためのメッセージボックスを出力
 				if (CountButtonClicked == TempNumberOfTrials) {
+					EnableWindow(GetDlgItem(hParentWindow, ID_LATESETTING), FALSE); // コンボボックスの無効化
+					EnableWindow(GetDlgItem(hParentWindow, ID_LATESETTING_2), FALSE);
+					EnableWindow(GetDlgItem(hParentWindow, ID_LATEINI_2), FALSE);
+					EnableWindow(GetDlgItem(hParentWindow, ID_EDIT_LATEDATA_TIMING), FALSE);
+					EnableWindow(GetDlgItem(hParentWindow, ID_LATEINI), FALSE);
+
 					string TempNumberString = to_string(TempNumberOfTrials);
 					MessageBox(NULL, TempNumberString.c_str(), _T("終了の合図"), MB_OK);
 				}
@@ -1080,6 +1088,9 @@ bool OnFont(HWND hwnd) {
 	hFont4 = CreateFont(18, 0, 0, 0, FW_MEDIUM, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
 		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("メイリオ"));
 
+	hFont5 = CreateFont(30, 0, 0, 0, FW_BOLD, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("メイリオ"));
+
 	SendMessage(hEdit1, WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	SendMessage(hStaticTime, WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	// ステティックコントロール
@@ -1116,11 +1127,12 @@ bool OnFont(HWND hwnd) {
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_LATESETTING_2), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 
 	// プッシュボタン
-	SendMessage(GetDlgItem(hwnd, ID_BUTTON_CSV), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_BUTTON_CSV), WM_SETFONT, (WPARAM)hFont5
+		, MAKELPARAM(false, 0));
 	
 	// エディットボックス
 	SendMessage(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
-	SendMessage(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
+	SendMessage(GetDlgItem(hwnd, ID_EDIT_FILEPATH), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 
 	return true;
 }
@@ -1550,12 +1562,16 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		////////////////
 	case ID_MENU_CSV_OUTPUT:
 	{
+		// カレントディレクトリの取得
+		char currentDirectory[MAX_PATH];
+		GetCurrentDirectory(MAX_PATH, currentDirectory);
+
 		// ファイル選択用ダイアログの表示
 		SelectFile(hwnd, FileNameCSV);
 		// パス名をstring型に変換
 		CSVFILENAME = FileNameCSV;
 		// 出力先ファイルをウィンドウ上に表示
-		RelativepathFromAbsolutepath(FileNameCSV, hwnd);
+		RelativepathFromAbsolutepath(FileNameCSV, hwnd, currentDirectory);
 	}
 		break;
 		// プッシュボタン
@@ -1588,8 +1604,14 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 				MarginTime.insert(MarginTime.begin(), stringDelayTiming);        // 遅延のタイミング
 				MarginTime.insert(MarginTime.begin(), stringDelayTime_ms);    // 遅延時間
 				MarginTime.insert(MarginTime.begin(), tempunique);                // irregular
+				EnableWindow(GetDlgItem(hwnd, ID_LATESETTING_2), TRUE);
+				EnableWindow(GetDlgItem(hParentWindow, ID_LATEINI_2), TRUE);
+				EnableWindow(GetDlgItem(hParentWindow, ID_EDIT_LATEDATA_TIMING), TRUE);
 			}
 			WriteToCSV(hwnd, MarginTime, CSVFILENAME);
+			EnableWindow(GetDlgItem(hwnd, ID_LATESETTING), TRUE);        // コンボボックスの有効化
+			EnableWindow(GetDlgItem(hParentWindow, ID_LATEINI), TRUE);
+
 		}
 		break;
 	}

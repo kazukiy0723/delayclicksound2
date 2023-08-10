@@ -51,10 +51,7 @@ bool CheckCanWriteFile(HWND hWnd, char* FileName) {
 }
 
 // 出力先ファイルを絶対パスからカレントディレクトリからの相対パスに変換
-bool RelativepathFromAbsolutepath(char* absolutePath, HWND hwnd) {
-
-	char currentDirectory[MAX_PATH];
-	GetCurrentDirectory(MAX_PATH, currentDirectory);
+bool RelativepathFromAbsolutepath(char* absolutePath, HWND hwnd, char* currentDirectory) {
 
 	char relativePath[MAX_PATH];
 	PathRelativePathTo(
@@ -67,7 +64,6 @@ bool RelativepathFromAbsolutepath(char* absolutePath, HWND hwnd) {
 
 	//MessageBox(hwnd, relativePath, NULL, MB_OK);
 	string temp = relativePath;
-	temp = _T(">>> ") + temp;
-	SetWindowText(GetDlgItem(hwnd, ID_STATIC_FILENAME), temp.c_str());
+	SetWindowText(GetDlgItem(hwnd, ID_EDIT_FILEPATH), temp.c_str());
 	return true;
 }

@@ -77,3 +77,4 @@ bool GetEditBoxTextFunc(HWND);
 #define ID_EDIT_OLD 6001
 #define ID_EDIT_NAME 6002
 #define ID_EDIT_LATEDATA_TIMING 6003
+#define ID_EDIT_FILEPATH 6004

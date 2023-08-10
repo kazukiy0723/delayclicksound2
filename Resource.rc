@@ -54,7 +54,7 @@ IDR_MENU1 MENU
 BEGIN
     POPUP "ファイル(F)"
     BEGIN
-        MENUITEM "出力先csvファイルの指定",               ID_MENU_CSV_OUTPUT
+        MENUITEM "ファイルの指定",                     ID_MENU_CSV_OUTPUT
     END
     POPUP "編集(E)"
     BEGIN

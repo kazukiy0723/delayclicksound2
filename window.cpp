@@ -65,21 +65,32 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 
 	HWND hButtonSendCSV = CreateWindow(
 		_T("BUTTON"),
-		_T("結果を出力"),
+		_T("↓ファイルを出力"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		rGroupIni.left, 375, rGroupIni.right - rGroupIni.left, 50,
+		rGroupIni.left + 260 + 35, 375, rGroupIni2.right - rGroupIni2.left + 50, 50,
 		hWnd, (HMENU)ID_BUTTON_CSV,
 		((LPCREATESTRUCT)(lParam))->hInstance, NULL
 	);
 	HWND hStaticFilename = CreateWindow(
 		_T("STATIC"),
-		_T(">>> No file selected"),
+		_T("場所:"),
 		WS_CHILD | WS_VISIBLE | SS_LEFT,
-		rGroupSetting.left, 390, 200, 25,
+		rGroupIni.left + 15, 390, 50, 25,
 		hWnd, (HMENU)ID_STATIC_FILENAME,
 		((LPCREATESTRUCT)(lParam))->hInstance, NULL
 	);
-	
+	// ファイルの場所を示すエディットボックス
+	HWND hEditFilePath = CreateWindow(
+		_T("EDIT"),
+		_T("No file selected"),
+		WS_CHILD | WS_VISIBLE | ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | ES_READONLY,
+		rGroupIni.left + 70, 390, 200, 25,
+		hWnd,
+		(HMENU)ID_EDIT_FILEPATH,
+		((LPCREATESTRUCT)(lParam))->hInstance,
+		NULL
+	);
+
 	HWND hCountButtonClicked_2 = CreateWindow(
 		_T("STATIC"),
 		_T("0"),
@@ -114,7 +125,7 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 		_T("被験者情報の入力"),
 		WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
 		rGroupIni.left, rGroupIni.bottom + 10,
-		rGroupSetting.right - rGroupIni.left, 90,
+		rGroupIni2.right - rGroupIni.left, 90,
 		hWnd, (HMENU)ID_GROUP_SUBJECTINFO,
 		((LPCREATESTRUCT)(lParam))->hInstance, NULL
 	);
@@ -144,7 +155,7 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 		_T("STATIC"),
 		_T("名前:"),
 		WS_CHILD | WS_VISIBLE | SS_LEFT,
-		rGroupIni.left + 140, rGroupIni.bottom + 45, 50, 25,
+		rGroupIni.left + 150, rGroupIni.bottom + 45, 50, 25,
 		hWnd, (HMENU)ID_STATIC_NAME,
 		((LPCREATESTRUCT)(lParam))->hInstance, NULL
 	);
@@ -152,8 +163,8 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 	HWND hEditName = CreateWindow(
 		_T("EDIT"),
 		_T(""),
-		WS_CHILD | WS_VISIBLE | ES_LEFT | WS_BORDER | WS_HSCROLL | ES_AUTOHSCROLL,
-		rGroupIni.left + 190, rGroupIni.bottom + 45, rGroupSetting.right - (rGroupIni.left + 190) - 10, 42,
+		WS_CHILD | WS_VISIBLE | ES_LEFT | WS_BORDER | ES_AUTOHSCROLL,
+		rGroupIni.left + 200, rGroupIni.bottom + 45, rGroupIni2.right - (rGroupIni.left + 210) - 10, 25,
 		hWnd,
 		(HMENU)ID_EDIT_NAME,
 		((LPCREATESTRUCT)(lParam))->hInstance,
@@ -220,7 +231,7 @@ bool CreateControl(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 	SendMessage(hComboTraialsNum, CB_ADDSTRING, 0, (LPARAM)_T("20"));
 	SendMessage(hComboTraialsNum, CB_ADDSTRING, 0, (LPARAM)_T("30"));
 	SendMessage(hComboTraialsNum, CB_ADDSTRING, 0, (LPARAM)_T("40"));
-	// 初期選択項目を"30"に設定
+	// 初期選択項目を"40"に設定
 	SendMessage(hComboTraialsNum, CB_SETCURSEL, 2, 0);
 	
 	HWND hBPM_LAB = CreateWindow(
