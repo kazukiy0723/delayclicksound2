@@ -11,5 +11,5 @@ using namespace std;
 
 // Function
 bool SelectFile(HWND, TCHAR*);
-bool RelativepathFromAbsolutepath(char*, HWND, char*);
+bool RelativepathFromAbsolutepath(char*, HWND);
 bool CheckCanWriteFile(HWND, char*);

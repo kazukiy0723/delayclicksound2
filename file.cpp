@@ -51,7 +51,11 @@ bool CheckCanWriteFile(HWND hWnd, char* FileName) {
 }
 
 // 出力先ファイルを絶対パスからカレントディレクトリからの相対パスに変換
-bool RelativepathFromAbsolutepath(char* absolutePath, HWND hwnd, char* currentDirectory) {
+bool RelativepathFromAbsolutepath(char* absolutePath, HWND hwnd) {
+
+	// カレントディレクトリの取得
+	char currentDirectory[MAX_PATH];
+	GetCurrentDirectory(MAX_PATH, currentDirectory);
 
 	char relativePath[MAX_PATH];
 	PathRelativePathTo(
@@ -62,8 +66,9 @@ bool RelativepathFromAbsolutepath(char* absolutePath, HWND hwnd, char* currentDi
 		FILE_ATTRIBUTE_NORMAL
 	);
 
-	//MessageBox(hwnd, relativePath, NULL, MB_OK);
 	string temp = relativePath;
+	// ".\\"を削除
+	temp.erase(temp.begin() + 0, temp.begin() + 2);
 	SetWindowText(GetDlgItem(hwnd, ID_EDIT_FILEPATH), temp.c_str());
 	return true;
 }

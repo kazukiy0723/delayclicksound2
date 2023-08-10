@@ -1562,16 +1562,13 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		////////////////
 	case ID_MENU_CSV_OUTPUT:
 	{
-		// カレントディレクトリの取得
-		char currentDirectory[MAX_PATH];
-		GetCurrentDirectory(MAX_PATH, currentDirectory);
-
+		
 		// ファイル選択用ダイアログの表示
 		SelectFile(hwnd, FileNameCSV);
 		// パス名をstring型に変換
 		CSVFILENAME = FileNameCSV;
 		// 出力先ファイルをウィンドウ上に表示
-		RelativepathFromAbsolutepath(FileNameCSV, hwnd, currentDirectory);
+		RelativepathFromAbsolutepath(FileNameCSV, hwnd);
 	}
 		break;
 		// プッシュボタン
