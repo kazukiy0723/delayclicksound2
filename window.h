@@ -13,6 +13,7 @@ bool OnCreate(HWND, WPARAM, LPARAM);
 bool OnCommand(HWND, WPARAM);
 bool SendNowTimeToEdit(HWND, const char*);
 bool OnFont(HWND);
+bool OnPaint(HWND, HDC);
 const char* getMilliTime(std::chrono::system_clock::time_point);
 bool SendMarginTimeToEdit(std::chrono::system_clock::duration);
 

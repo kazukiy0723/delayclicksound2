@@ -89,6 +89,9 @@ string TimeStampButtonClicked = _T("Nothing");
 extern int DelayTiming, DelayTime_ms;
 int DelayTimeUnique;
 
+// window.cppÇ∆ã§óL
+extern RECT rGroupIni;
+extern RECT rGroupIni2;
 //WinMainä÷êî
 int WINAPI WinMain(_In_ HINSTANCE hThisInst, _In_opt_ HINSTANCE hPrevInst, _In_ LPSTR lpszArgs, _In_ int nWinMode)
 {
@@ -634,7 +637,8 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 	{
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hwnd, &ps);
-		//DrawEdge(hdc, &recthEdit1, EDGE_BUMP, BF_RECT);
+		OnPaint(hwnd, hdc);
+
 		EndPaint(hwnd, &ps);
 	}
 	break;
@@ -1375,6 +1379,17 @@ bool GetEditBoxTextFunc(HWND hwnd) {
 	return true;
 }
 
+bool OnPaint(HWND hWnd, HDC hdc) {
+	HPEN hBluePen = CreatePen(PS_SOLID, 5, (RGB(0, 150, 215)));
+	RECT rButtonSendCSV = {rGroupIni.left + 294 , 374, rGroupIni.left + 294  + rGroupIni2.right - rGroupIni2.left + 52, 373 + 52
+	};
+	HPEN hOldPen = (HPEN)SelectObject(hdc, hBluePen);
+	Rectangle(hdc, rButtonSendCSV.left, rButtonSendCSV.top, rButtonSendCSV.right, rButtonSendCSV.bottom);
+	SelectObject(hdc, hOldPen);
+
+	DeleteObject(hBluePen);
+	return true;
+}
 bool OnCommand(HWND hwnd, WPARAM wparam) {
 
 	switch (LOWORD(wparam)) {
