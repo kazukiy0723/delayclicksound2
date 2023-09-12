@@ -1,5 +1,5 @@
 //////
-//Delay Click Sound by ASIO Ver. 2 (ƒI[ƒo[ƒ‰ƒbƒv‚È‚µAÄ¶‰¹ŠJn“_’²®‚ ‚èAƒ`ƒƒƒ^ƒŠƒ“ƒOl—¶A‰¹º’x‰„‚ ‚è(•Êƒ`ƒƒƒ“ƒlƒ‹Ä¶))
+//Delay Click Sound by ASIO Ver. 2 (ã‚ªãƒ¼ãƒãƒ¼ãƒ©ãƒƒãƒ—ãªã—ã€å†ç”ŸéŸ³é–‹å§‹ç‚¹èª¿æ•´ã‚ã‚Šã€ãƒãƒ£ã‚¿ãƒªãƒ³ã‚°è€ƒæ…®ã€éŸ³å£°é…å»¶ã‚ã‚Š(åˆ¥ãƒãƒ£ãƒ³ãƒãƒ«å†ç”Ÿ))
 //////
 #include<windows.h>
 #include<tchar.h>
@@ -10,7 +10,7 @@
 #include"asio.h"
 #include"asiodrivers.h"
 
-// ’Ç‰Áƒtƒ@ƒCƒ‹
+// è¿½åŠ ãƒ•ã‚¡ã‚¤ãƒ«
 #include<chrono>
 #include<iostream>
 #include<sstream>
@@ -25,7 +25,7 @@
 #include"file.h"
 #include"dialogbox.h"
 
-// VisualƒXƒ^ƒCƒ‹—LŒø‰»
+// Visualã‚¹ã‚¿ã‚¤ãƒ«æœ‰åŠ¹åŒ–
 #pragma comment(linker,"\"/manifestdependency:type='win32' \
 name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -57,42 +57,42 @@ ASIOSampleType		SampleType;
 extern long inlatency, outlatency;
 extern int lenBuffer;
 
-// ’Ç‰Á•Ï”
+// è¿½åŠ å¤‰æ•°
 extern HWND hStaticNowTime, hStaticTime, hEdit1, htaticNumberOfloops, hStaticNumberOfloops2;
 HFONT hFont1, hFont2, hFont3, hFont4, hFont5;
 RECT recthEdit1 = { 198, 98, 702, 402 };
 int call_count, temp_count;
 bool wavePlayed = false;
 extern int NumberOfloops;
-// ˆ—ŠÔŒv‘ª—p
+// å‡¦ç†æ™‚é–“è¨ˆæ¸¬ç”¨
 std::chrono::system_clock::time_point start, before_start;
 extern int Num;
-//@ŠÔ·‚ğ•Û‘¶‚·‚é‚½‚ß‚ÌƒxƒNƒ^
+//ã€€æ™‚é–“å·®ã‚’ä¿å­˜ã™ã‚‹ãŸã‚ã®ãƒ™ã‚¯ã‚¿
 vector<string> MarginTime;
-// ƒ{ƒ^ƒ“‚Ì‰Ÿ‰º‰ñ”‚ğ•Û‚·‚é•Ï”
+// ãƒœã‚¿ãƒ³ã®æŠ¼ä¸‹å›æ•°ã‚’ä¿æŒã™ã‚‹å¤‰æ•°
 int CountButtonClicked;
-// eƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹‚ğ•Û
+// è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«ã‚’ä¿æŒ
 HWND hParentWindow;
-// Œ‹‰Ê‚Ìo—Íæ‚ÌƒpƒX‚ğ•Û‚·‚é•Ï”
+// çµæœã®å‡ºåŠ›å…ˆã®ãƒ‘ã‚¹ã‚’ä¿æŒã™ã‚‹å¤‰æ•°
 string CSVFILENAME;
-// ÀŒ±•û–@‚Ì‘I‘ğ
+// å®Ÿé¨“æ–¹æ³•ã®é¸æŠ
 bool LABNormal;
 int TempNumberOfLoops;
-// s‰ñ”‚ğ•Û‚·‚é•Ï”
+// è©¦è¡Œå›æ•°ã‚’ä¿æŒã™ã‚‹å¤‰æ•°
 int TempNumberOfTrials;
-// ƒtƒ@ƒCƒ‹–¼
+// ãƒ•ã‚¡ã‚¤ãƒ«å
 static char FileNameCSV[MAX_PATH];
-// ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv
+// ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—
 string TimeStampButtonClicked = _T("Nothing");
 
-// dialogbox.cpp‚Æ‹¤—L
+// dialogbox.cppã¨å…±æœ‰
 extern int DelayTiming, DelayTime_ms;
 int DelayTimeUnique;
 
-// window.cpp‚Æ‹¤—L
+// window.cppã¨å…±æœ‰
 extern RECT rGroupIni;
 extern RECT rGroupIni2;
-//WinMainŠÖ”
+//WinMainé–¢æ•°
 int WINAPI WinMain(_In_ HINSTANCE hThisInst, _In_opt_ HINSTANCE hPrevInst, _In_ LPSTR lpszArgs, _In_ int nWinMode)
 {
 	HWND			hwnd;
@@ -100,58 +100,58 @@ int WINAPI WinMain(_In_ HINSTANCE hThisInst, _In_opt_ HINSTANCE hPrevInst, _In_ 
 	WNDCLASSEX		wcl;
 	HACCEL			haccel;
 
-	//// “ñd‹N“®–h~
+	//// äºŒé‡èµ·å‹•é˜²æ­¢
 	//HANDLE hMutex = CreateMutex(NULL, TRUE, _T("MyAppMutex"));
 	//if (GetLastError() == ERROR_ALREADY_EXISTS) {
-	//	MessageBox(NULL, _T("This Application is already running!"), _T("Œx"), MB_OK |  MB_ICONWARNING);
+	//	MessageBox(NULL, _T("This Application is already running!"), _T("è­¦å‘Š"), MB_OK |  MB_ICONWARNING);
 	//	return 0;
 	//}
 
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì’è‹`
-	wcl.cbSize = sizeof(WNDCLASSEX);				//WNDCLASSEX\‘¢‘Ì‚ÌƒTƒCƒY
-	wcl.style = 0;									//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒXƒXƒ^ƒCƒ‹
-	wcl.lpfnWndProc = windowfunc;					//ƒEƒBƒ“ƒhƒEŠÖ”
-	wcl.cbClsExtra = 0;								//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ÌƒGƒLƒXƒgƒ‰
-	wcl.cbWndExtra = 0;								//ƒEƒBƒ“ƒhƒEƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒGƒLƒXƒgƒ‰
-	wcl.hInstance = hThisInst;						//‚±‚ÌƒvƒƒOƒ‰ƒ€‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹
-	wcl.hIcon = LoadIcon(NULL, IDI_APPLICATION);	//ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);		//ƒJ[ƒ\ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹
-	wcl.hbrBackground = (HBRUSH)COLOR_WINDOW;		//”wŒiƒuƒ‰ƒV‚Ö‚Ìƒnƒ“ƒhƒ‹
-	wcl.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);	//ƒƒjƒ…[
-	wcl.lpszClassName = szWinName;					//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX–¼
-	wcl.hIconSm = LoadIcon(NULL, IDI_WINLOGO);		//ƒXƒ‚[ƒ‹ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®å®šç¾©
+	wcl.cbSize = sizeof(WNDCLASSEX);				//WNDCLASSEXæ§‹é€ ä½“ã®ã‚µã‚¤ã‚º
+	wcl.style = 0;									//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚¹ã‚¿ã‚¤ãƒ«
+	wcl.lpfnWndProc = windowfunc;					//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é–¢æ•°
+	wcl.cbClsExtra = 0;								//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®ã‚¨ã‚­ã‚¹ãƒˆãƒ©
+	wcl.cbWndExtra = 0;								//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ã‚¨ã‚­ã‚¹ãƒˆãƒ©
+	wcl.hInstance = hThisInst;						//ã“ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®ãƒãƒ³ãƒ‰ãƒ«
+	wcl.hIcon = LoadIcon(NULL, IDI_APPLICATION);	//ã‚¢ã‚¤ã‚³ãƒ³ã¸ã®ãƒãƒ³ãƒ‰ãƒ«
+	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);		//ã‚«ãƒ¼ã‚½ãƒ«ã¸ã®ãƒãƒ³ãƒ‰ãƒ«
+	wcl.hbrBackground = (HBRUSH)COLOR_WINDOW;		//èƒŒæ™¯ãƒ–ãƒ©ã‚·ã¸ã®ãƒãƒ³ãƒ‰ãƒ«
+	wcl.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+	wcl.lpszClassName = szWinName;					//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹å
+	wcl.hIconSm = LoadIcon(NULL, IDI_WINLOGO);		//ã‚¹ãƒ¢ãƒ¼ãƒ«ã‚¢ã‚¤ã‚³ãƒ³ã¸ã®ãƒãƒ³ãƒ‰ãƒ«
 
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì“o˜^
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®ç™»éŒ²
 	if (!RegisterClassEx(&wcl)) {
 		return(0);
 	}
 
-	//ƒEƒBƒ“ƒhƒE‚Ì¶¬
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç”Ÿæˆ
 	hwnd = CreateWindow(
-		szWinName,				//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX–¼
-		szWinName,				//ƒEƒBƒ“ƒhƒE–¼
-		WS_OVERLAPPEDWINDOW,	//ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹
-		CW_USEDEFAULT,			//xÀ•W
-		CW_USEDEFAULT,			//yÀ•W
-		CW_USEDEFAULT,			//•
-		CW_USEDEFAULT,			//‚‚³
-		HWND_DESKTOP,			//eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹
-		NULL,					//ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹
-		hThisInst,				//‚±‚ÌƒvƒƒOƒ‰ƒ€‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹	
-		NULL					//’Ç‰Áˆø”
+		szWinName,				//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹å
+		szWinName,				//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å
+		WS_OVERLAPPEDWINDOW,	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
+		CW_USEDEFAULT,			//xåº§æ¨™
+		CW_USEDEFAULT,			//yåº§æ¨™
+		CW_USEDEFAULT,			//å¹…
+		CW_USEDEFAULT,			//é«˜ã•
+		HWND_DESKTOP,			//è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¸ã®ãƒãƒ³ãƒ‰ãƒ«
+		NULL,					//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã¸ã®ãƒãƒ³ãƒ‰ãƒ«
+		hThisInst,				//ã“ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®ãƒãƒ³ãƒ‰ãƒ«	
+		NULL					//è¿½åŠ å¼•æ•°
 	);
 
-	// eƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚Ì‹L‰¯
+	// è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ã®è¨˜æ†¶
 	hParentWindow = hwnd;
 
-	//ƒEƒBƒ“ƒhƒE‚Ì•\¦
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¡¨ç¤º
 	ShowWindow(hwnd, nWinMode);
 	UpdateWindow(hwnd);
 
-	//ƒL[ƒ{[ƒhƒAƒNƒZƒ‰ƒŒ[ƒ^‚Ìƒ[ƒh
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚¢ã‚¯ã‚»ãƒ©ãƒ¬ãƒ¼ã‚¿ã®ãƒ­ãƒ¼ãƒ‰
 	haccel = LoadAccelerators(hThisInst, MAKEINTRESOURCE(IDR_ACCELERATOR1));
 
-	//ƒƒbƒZ[ƒWƒ‹[ƒv‚Ì¶¬
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—ã®ç”Ÿæˆ
 	while (GetMessage(&msg, NULL, 0, 0)) {
 		if (!TranslateAccelerator(hwnd, haccel, &msg)) {
 			TranslateMessage(&msg);
@@ -162,7 +162,7 @@ int WINAPI WinMain(_In_ HINSTANCE hThisInst, _In_opt_ HINSTANCE hPrevInst, _In_ 
 	return((int)msg.wParam);
 }
 
-//ƒEƒBƒ“ƒhƒEŠÖ”
+//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é–¢æ•°
 LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	ASIOError		asioresult;
@@ -179,15 +179,15 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 
 	switch (message) {
 	case WM_CREATE:
-		//ƒEƒBƒ“ƒhƒE‚Ì‰Šú‰»
-		// ƒEƒBƒ“ƒhƒE‚Ìì¬
+		//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®åˆæœŸåŒ–
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä½œæˆ
 		CreateControl(hwnd, wparam, lparam);
-		// Àsƒtƒ@ƒCƒ‹‚ÌƒpƒX–¼‚Ìæ“¾
+		// å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹åã®å–å¾—
 		TCHAR lpFileName[MAX_PATH];
 		GetModuleFileName(NULL, lpFileName, sizeof(lpFileName));
-		// ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹‚ğÀsƒtƒ@ƒCƒ‹‚ÌƒpƒX–¼‚É•ÏX
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«ã‚’å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹åã«å¤‰æ›´
 		SetWindowText(hwnd, lpFileName);
-		//ƒpƒ‰ƒ[ƒ^‚Ì‰Šú‰»
+		//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®åˆæœŸåŒ–
 		idDevice = -1;
 		hMmio = NULL;
 		tmpWaveData = NULL;
@@ -197,7 +197,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		isOpenedDevice = false;
 		isCreatedBuffer = false;
 		idxWaveData = 0;
-		// ’Ç‰Á
+		// è¿½åŠ 
 		call_count = 1;
 		temp_count = 0;
 		NumberOfloops = 3;
@@ -205,12 +205,12 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		CountButtonClicked = 0;
 		LABNormal = true;
 		TempNumberOfTrials = 40;
-		//ASIOƒfƒoƒCƒX—pƒƒ‚ƒŠ—Ìˆæ‚ÌŠm•Û
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ç”¨ãƒ¡ãƒ¢ãƒªé ˜åŸŸã®ç¢ºä¿
 		if (asioDrivers == NULL) {
 			asioDrivers = new AsioDrivers();
 		}
 
-		//ASIOƒfƒoƒCƒX–¼‚Ìæ“¾
+		//ASIOãƒ‡ãƒã‚¤ã‚¹åã®å–å¾—
 		for (idev = 0; idev < MAXNUMDEVS; idev++) {
 			tmpnames[idev] = devnames[idev];
 		}
@@ -219,7 +219,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			MessageBox(NULL, _T("asioDrivers->getDriverNames"), _T("Error"), MB_ICONSTOP | MB_OK);
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ìƒhƒ‰ƒCƒo‚Ìƒ[ƒh
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒ‰ãƒ©ã‚¤ãƒã®ãƒ­ãƒ¼ãƒ‰
 		boolresult = asioDrivers->loadDriver(devnames[IDDEV]);
 		if (boolresult == false) {
 			isLoadedDriver = false;
@@ -230,7 +230,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			isLoadedDriver = true;
 		}
 
-		//ASIOƒfƒoƒCƒX‚ÌƒI[ƒvƒ“
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ã‚ªãƒ¼ãƒ—ãƒ³
 		memset(&DriverInfo, 0, sizeof(ASIODriverInfo));
 		asioresult = ASIOInit(&DriverInfo);
 		if (asioresult != ASE_OK) {
@@ -238,7 +238,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			_stprintf_s(str, LENSTR, _T("ASIOInit\nDevice Name: %s\n"), devnames[IDDEV]);
 			MessageBox(NULL, str, _T("Error"), MB_ICONSTOP | MB_OK);
 
-			//ASIOƒfƒoƒCƒX‚Ìƒhƒ‰ƒCƒo‚ÌƒAƒ“ƒ[ƒh
+			//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒ‰ãƒ©ã‚¤ãƒã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰
 			if (isLoadedDriver == true) {
 				asioDrivers->removeCurrentDriver();
 				isLoadedDriver = false;
@@ -262,7 +262,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 						isLoadedDriver = true;
 					}
 
-					//ASIOƒfƒoƒCƒX‚ÌƒI[ƒvƒ“
+					//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ã‚ªãƒ¼ãƒ—ãƒ³
 					memset(&DriverInfo, 0, sizeof(ASIODriverInfo));
 					asioresult = ASIOInit(&DriverInfo);
 					if (asioresult != ASE_OK) {
@@ -270,7 +270,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 						_stprintf_s(str, LENSTR, _T("ASIOInit\nDevice Name: %s\n"), devnames[idev]);
 						MessageBox(NULL, str, _T("Error"), MB_ICONSTOP | MB_OK);
 
-						//ASIOƒfƒoƒCƒX‚Ìƒhƒ‰ƒCƒo‚ÌƒAƒ“ƒ[ƒh
+						//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒ‰ãƒ©ã‚¤ãƒã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰
 						if (isLoadedDriver == true) {
 							asioDrivers->removeCurrentDriver();
 							isLoadedDriver = false;
@@ -284,26 +284,26 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			}
 		}
 
-		//ASIOƒfƒoƒCƒX‚ÌƒTƒ“ƒvƒŠƒ“ƒOü”g”‚ÌƒTƒ|[ƒg‚ÌŠm”F
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°ã®ã‚µãƒãƒ¼ãƒˆã®ç¢ºèª
 		rate = FS;
 		asioresult = ASIOCanSampleRate(rate);
 		if (asioresult != ASE_OK) {
 			MessageBox(NULL, _T("ASIOCanSampleRate"), _T("Error"), MB_ICONSTOP | MB_OK);
 		}
 
-		//ASIOƒfƒoƒCƒX‚ÌƒTƒ“ƒvƒŠƒ“ƒOü”g”‚Ìİ’è
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°ã®è¨­å®š
 		asioresult = ASIOSetSampleRate(rate);
 		if (asioresult != ASE_OK) {
 			MessageBox(NULL, _T("ASIOSetSampleRate"), _T("Error"), MB_ICONSTOP | MB_OK);
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ìƒ`ƒƒƒ“ƒlƒ‹”‚Ìæ“¾
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒãƒ£ãƒ³ãƒãƒ«æ•°ã®å–å¾—
 		asioresult = ASIOGetChannels(&numinchs, &numoutchs);
 		if (asioresult != ASE_OK) {
 			MessageBox(NULL, _T("ASIOGetChannels"), _T("Error"), MB_ICONSTOP | MB_OK);
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ì˜^‰¹ƒ`ƒƒƒ“ƒlƒ‹”‚Ìİ’è
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®éŒ²éŸ³ãƒãƒ£ãƒ³ãƒãƒ«æ•°ã®è¨­å®š
 		if (numinchs <= MAXNUMINCHS) {
 			numInChannels = numinchs;
 		}
@@ -311,7 +311,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			numInChannels = MAXNUMINCHS;
 		}
 
-		//ASIOƒfƒoƒCƒX‚ÌÄ¶—pƒ`ƒƒƒ“ƒlƒ‹”‚Ìİ’è
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®å†ç”Ÿç”¨ãƒãƒ£ãƒ³ãƒãƒ«æ•°ã®è¨­å®š
 		if (numoutchs <= MAXNUMOUTCHS) {
 			numOutChannels = numoutchs;
 		}
@@ -331,36 +331,36 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			idChannelSound = 0;
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚Ìæ“¾
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã®å–å¾—
 		asioresult = ASIOGetBufferSize(&minlenbuffer, &maxlenbuffer, &preflenbuffer, &granularity);
 		if (asioresult != ASE_OK) {
 			MessageBox(NULL, _T("ASIOGetBufferSize"), _T("Error"), MB_ICONSTOP | MB_OK);
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚Ìİ’è
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã®è¨­å®š
 		lenBuffer = preflenbuffer;
 
-		//ASIOƒfƒoƒCƒX‚Ì˜^‰¹—pƒoƒbƒtƒ@‚Ì‰Šú‰»
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®éŒ²éŸ³ç”¨ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–
 		for (ich = 0; ich < numInChannels; ich++) {
 			memset(&(BufInfo[ich]), 0, sizeof(ASIOBufferInfo));
 			BufInfo[ich].isInput = ASIOTrue;
 			BufInfo[ich].channelNum = ich;
 		}
 
-		//ASIOƒfƒoƒCƒX‚ÌÄ¶—pƒoƒbƒtƒ@‚Ì‰Šú‰»
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®å†ç”Ÿç”¨ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–
 		for (ich = 0; ich < numOutChannels; ich++) {
 			memset(&(BufInfo[numInChannels + ich]), 0, sizeof(ASIOBufferInfo));
 			BufInfo[numInChannels + ich].isInput = ASIOFalse;
 			BufInfo[numInChannels + ich].channelNum = ich;
 		}
 
-		//ASIOƒfƒoƒCƒX—pƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìİ’è
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®è¨­å®š
 		CallBacks.bufferSwitch = &bufferswitch;
 		CallBacks.bufferSwitchTimeInfo = &bufferswitchtimeinfo;
 		CallBacks.sampleRateDidChange = &sampleratedidchange;
 		CallBacks.asioMessage = &asiomessage;
 
-		//ASIOƒfƒoƒCƒX‚Ìƒoƒbƒtƒ@‚Ì¶¬
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 		asioresult = ASIOCreateBuffers(BufInfo, numInChannels + numOutChannels, lenBuffer, &CallBacks);
 		if (asioresult != ASE_OK) {
 			isCreatedBuffer = false;
@@ -370,7 +370,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			isCreatedBuffer = true;
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ìƒ`ƒƒƒ“ƒlƒ‹î•ñ‚Ìæ“¾
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒãƒ£ãƒ³ãƒãƒ«æƒ…å ±ã®å–å¾—
 		for (ich = 0; ich < numInChannels + numOutChannels; ich++) {
 			memset(&(ChannelInfo[ich]), 0, sizeof(ASIOChannelInfo));
 			ChannelInfo[ich].isInput = BufInfo[ich].isInput;
@@ -395,13 +395,13 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			break;
 		}
 
-		//ASIOƒfƒoƒCƒX‚ÌƒŒƒCƒeƒ“ƒV‚Ìæ“¾
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒ¬ã‚¤ãƒ†ãƒ³ã‚·ã®å–å¾—
 		asioresult = ASIOGetLatencies(&inlatency, &outlatency);
 		if (asioresult != ASE_OK) {
 			MessageBox(NULL, _T("ASIOGetLatencies"), _T("Error"), MB_ICONSTOP | MB_OK);
 		}
 
-		//ASIOOutputReadyŠÖ”‚ÌƒTƒ|[ƒg‚ÌŠm”F
+		//ASIOOutputReadyé–¢æ•°ã®ã‚µãƒãƒ¼ãƒˆã®ç¢ºèª
 		asioresult = ASIOOutputReady();
 		if (asioresult == ASE_OK) {
 			SupportASIOOutputReady = true;
@@ -410,7 +410,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			SupportASIOOutputReady = false;
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ìİ’è“à—e‚ÌŠm”F
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®è¨­å®šå†…å®¹ã®ç¢ºèª
 		ASIOGetSampleRate(&rate);
 		_stprintf_s(strASIOInfo, LENSTR,
 			_T("Device Name: %s\n")
@@ -439,73 +439,73 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			SupportASIOOutputReady == true ? _T("Supported.") : _T("Not Supported."));
 		MessageBox(NULL, strASIOInfo, _T("ASIO"), MB_OK);
 
-		// ’x‰„ŠÔ‚Ìİ’è—pƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ìì¬‚Æiniƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+		// é…å»¶æ™‚é–“ã®è¨­å®šç”¨ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®ä½œæˆã¨iniãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 		ReadIniFile(hwnd, lparam);
 
 		
-		//WAVEƒtƒ@ƒCƒ‹‚ÌƒI[ƒvƒ“
+		//WAVEãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚ªãƒ¼ãƒ—ãƒ³
 		if ((hMmio = mmioOpen(wavefilename, NULL, MMIO_READ)) == NULL) {
-			//ƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚Å‚«‚È‚©‚Á‚½ê‡‚Ìˆ—
-			_stprintf_s(str, LENSTR, _T("ƒGƒ‰[: ƒtƒ@ƒCƒ‹‚ğŠJ‚­‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ\nƒtƒ@ƒCƒ‹–¼: %s"), wavefilename);
-			MessageBox(hwnd, str, _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚ªãƒ¼ãƒ—ãƒ³ã§ããªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			_stprintf_s(str, LENSTR, _T("ã‚¨ãƒ©ãƒ¼: ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã“ã¨ãŒã§ãã¾ã›ã‚“\nãƒ•ã‚¡ã‚¤ãƒ«å: %s"), wavefilename);
+			MessageBox(hwnd, str, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 
-		//ƒtƒ@ƒCƒ‹‚ÌWAVEƒ`ƒƒƒ“ƒN‚ÖˆÚ“®
+		//ãƒ•ã‚¡ã‚¤ãƒ«ã®WAVEãƒãƒ£ãƒ³ã‚¯ã¸ç§»å‹•
 		memset(&mmckinfoparent, 0, sizeof(MMCKINFO));
 		mmckinfoparent.fccType = mmioFOURCC('W', 'A', 'V', 'E');
 		if (mmioDescend(hMmio, &mmckinfoparent, NULL, MMIO_FINDRIFF) != MMSYSERR_NOERROR) {
-			//ƒ`ƒƒƒ“ƒN‚ğˆÚ“®‚Å‚«‚È‚©‚Á‚½ê‡‚Ìˆ—
-			_stprintf_s(str, LENSTR, _T("ƒGƒ‰[: ƒf[ƒ^‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ\nƒtƒ@ƒCƒ‹–¼: %s"), wavefilename);
-			MessageBox(hwnd, str, _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒãƒ£ãƒ³ã‚¯ã‚’ç§»å‹•ã§ããªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			_stprintf_s(str, LENSTR, _T("ã‚¨ãƒ©ãƒ¼: ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“\nãƒ•ã‚¡ã‚¤ãƒ«å: %s"), wavefilename);
+			MessageBox(hwnd, str, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 
-		//ƒtƒ@ƒCƒ‹‚Ìfmtƒ`ƒƒƒ“ƒN‚ÖˆÚ“®
+		//ãƒ•ã‚¡ã‚¤ãƒ«ã®fmtãƒãƒ£ãƒ³ã‚¯ã¸ç§»å‹•
 		memset(&mmckinfosubchunk, 0, sizeof(MMCKINFO));
 		mmckinfosubchunk.ckid = mmioFOURCC('f', 'm', 't', ' ');
 		if (mmioDescend(hMmio, &mmckinfosubchunk, &mmckinfoparent, MMIO_FINDCHUNK) != MMSYSERR_NOERROR) {
-			//ƒ`ƒƒƒ“ƒN‚ğˆÚ“®‚Å‚«‚È‚©‚Á‚½ê‡‚Ìˆ—
-			_stprintf_s(str, LENSTR, _T("ƒGƒ‰[: ƒf[ƒ^‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ\nƒtƒ@ƒCƒ‹–¼: %s"), wavefilename);
-			MessageBox(hwnd, str, _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒãƒ£ãƒ³ã‚¯ã‚’ç§»å‹•ã§ããªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			_stprintf_s(str, LENSTR, _T("ã‚¨ãƒ©ãƒ¼: ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“\nãƒ•ã‚¡ã‚¤ãƒ«å: %s"), wavefilename);
+			MessageBox(hwnd, str, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 
-		//ƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^Œ`®‚Ì“Ç‚İ‚İ
+		//ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®èª­ã¿è¾¼ã¿
 		memset(&wf, 0, sizeof(WAVEFORMATEX));
 		if (mmioRead(hMmio, (HPSTR)&wf, mmckinfosubchunk.cksize) == -1) {
-			//ƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^Œ`®‚ğ“Ç‚İ‚ß‚È‚©‚Á‚½ê‡‚Ìˆ—
-			_stprintf_s(str, LENSTR, _T("ƒGƒ‰[: ƒf[ƒ^‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ\nƒtƒ@ƒCƒ‹–¼: %s"), wavefilename);
-			MessageBox(hwnd, str, _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿å½¢å¼ã‚’èª­ã¿è¾¼ã‚ãªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			_stprintf_s(str, LENSTR, _T("ã‚¨ãƒ©ãƒ¼: ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“\nãƒ•ã‚¡ã‚¤ãƒ«å: %s"), wavefilename);
+			MessageBox(hwnd, str, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 
-		//ƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^Œ`®‚ÌŠm”F
+		//ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®ç¢ºèª
 		if (wf.wFormatTag != WAVE_FORMAT_PCM) {
-			//ƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^Œ`®‚ªPCM‚Å‚Í‚È‚©‚Á‚½ê‡‚Ìˆ—
-			_stprintf_s(str, LENSTR, _T("ƒGƒ‰[: PCMŒ`®WAVEƒf[ƒ^‚Å‚Í‚È‚¢‚Ì‚Å“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ\nƒtƒ@ƒCƒ‹–¼: %s"), wavefilename);
-			MessageBox(hwnd, str, _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿å½¢å¼ãŒPCMã§ã¯ãªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			_stprintf_s(str, LENSTR, _T("ã‚¨ãƒ©ãƒ¼: PCMå½¢å¼WAVEãƒ‡ãƒ¼ã‚¿ã§ã¯ãªã„ã®ã§èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“\nãƒ•ã‚¡ã‚¤ãƒ«å: %s"), wavefilename);
+			MessageBox(hwnd, str, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 
-		//ƒtƒ@ƒCƒ‹‚Ìdataƒ`ƒƒƒ“ƒN‚ÖˆÚ“®
+		//ãƒ•ã‚¡ã‚¤ãƒ«ã®dataãƒãƒ£ãƒ³ã‚¯ã¸ç§»å‹•
 		if (mmioAscend(hMmio, &mmckinfosubchunk, 0) != MMSYSERR_NOERROR) {
-			//ƒ`ƒƒƒ“ƒN‚ğˆÚ“®‚Å‚«‚È‚©‚Á‚½ê‡‚Ìˆ—
-			_stprintf_s(str, LENSTR, _T("ƒGƒ‰[: ƒf[ƒ^‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ\nƒtƒ@ƒCƒ‹–¼: %s"), wavefilename);
-			MessageBox(hwnd, str, _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒãƒ£ãƒ³ã‚¯ã‚’ç§»å‹•ã§ããªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			_stprintf_s(str, LENSTR, _T("ã‚¨ãƒ©ãƒ¼: ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“\nãƒ•ã‚¡ã‚¤ãƒ«å: %s"), wavefilename);
+			MessageBox(hwnd, str, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 		memset(&mmckinfosubchunk, 0, sizeof(MMCKINFO));
 		mmckinfosubchunk.ckid = mmioFOURCC('d', 'a', 't', 'a');
 		if (mmioDescend(hMmio, &mmckinfosubchunk, &mmckinfoparent, MMIO_FINDCHUNK) != MMSYSERR_NOERROR) {
-			//ƒ`ƒƒƒ“ƒN‚ğˆÚ“®‚Å‚«‚È‚©‚Á‚½ê‡‚Ìˆ—
-			_stprintf_s(str, LENSTR, _T("ƒGƒ‰[: ƒf[ƒ^‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ\nƒtƒ@ƒCƒ‹–¼: %s"), wavefilename);
-			MessageBox(hwnd, str, _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒãƒ£ãƒ³ã‚¯ã‚’ç§»å‹•ã§ããªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			_stprintf_s(str, LENSTR, _T("ã‚¨ãƒ©ãƒ¼: ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“\nãƒ•ã‚¡ã‚¤ãƒ«å: %s"), wavefilename);
+			MessageBox(hwnd, str, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 		lenWaveData = mmckinfosubchunk.cksize / wf.nBlockAlign;
 
-		//ƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚Ö‚ÌƒeƒLƒXƒg‚Ìo—Í
+		//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒœãƒƒã‚¯ã‚¹ã¸ã®ãƒ†ã‚­ã‚¹ãƒˆã®å‡ºåŠ›
 		_stprintf_s(strWaveFileInfo, LENSTR,
 			_T("File Name: %s\n")
 			_T("Sampling Frequency: %d Hz\n")
@@ -515,34 +515,34 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			wavefilename, wf.nSamplesPerSec, wf.wBitsPerSample, wf.nChannels, lenWaveData);
 		MessageBox(NULL, strWaveFileInfo, _T("Read a Wave File"), MB_OK);
 
-		//WAVEƒf[ƒ^—pƒoƒbƒtƒ@‚Ì¶¬
+		//WAVEãƒ‡ãƒ¼ã‚¿ç”¨ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 		tmpWaveData = (void*)malloc(mmckinfosubchunk.cksize);
 		WaveData = (void*)malloc(lenWaveData * (BitsPerSample / 8));
 		if (tmpWaveData == NULL || WaveData == NULL) {
-			//ƒoƒbƒtƒ@‚ğ¶¬‚Å‚«‚È‚©‚Á‚½ê‡‚Ìˆ—
-			MessageBox(hwnd, _T("ƒGƒ‰[: ƒƒ‚ƒŠ[‚ª‘«‚è‚Ü‚¹‚ñ"), _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒãƒƒãƒ•ã‚¡ã‚’ç”Ÿæˆã§ããªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			MessageBox(hwnd, _T("ã‚¨ãƒ©ãƒ¼: ãƒ¡ãƒ¢ãƒªãƒ¼ãŒè¶³ã‚Šã¾ã›ã‚“"), _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 
-		//WAVEƒf[ƒ^‚Ì“Ç‚İ‚İ
+		//WAVEãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 		if (mmioRead(hMmio, (HPSTR)tmpWaveData, mmckinfosubchunk.cksize) <= 0) {
-			//ƒf[ƒ^‚ğ“Ç‚İ‚ß‚È‚©‚Á‚½ê‡‚Ìˆ—
-			_stprintf_s(str, LENSTR, _T("ƒGƒ‰[: ƒf[ƒ^‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ\nƒtƒ@ƒCƒ‹–¼: %s"), wavefilename);
-			MessageBox(hwnd, str, _T("ƒtƒ@ƒCƒ‹‚ğŠJ‚­"), MB_ICONSTOP | MB_OK);
+			//ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚ãªã‹ã£ãŸå ´åˆã®å‡¦ç†
+			_stprintf_s(str, LENSTR, _T("ã‚¨ãƒ©ãƒ¼: ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“\nãƒ•ã‚¡ã‚¤ãƒ«å: %s"), wavefilename);
+			MessageBox(hwnd, str, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã"), MB_ICONSTOP | MB_OK);
 			return(0);
 		}
 
-		//WAVEƒtƒ@ƒCƒ‹‚ÌƒNƒ[ƒY
+		//WAVEãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¯ãƒ­ãƒ¼ã‚º
 		if (hMmio != NULL) {
 			mmioClose(hMmio, 0);
 			hMmio = NULL;
 		}
 
-		//WAVEƒf[ƒ^‚Ì•ÏŠ·
+		//WAVEãƒ‡ãƒ¼ã‚¿ã®å¤‰æ›
 		for (isample = 0; isample < lenWaveData; isample++) {
 			tmpdouble = 0.0;
 			for (ich = 0; ich < wf.nChannels; ich++) {
-				//WAVEƒf[ƒ^‚Ìshort intŒ^‚Ö‚Ì•ÏŠ·
+				//WAVEãƒ‡ãƒ¼ã‚¿ã®short intå‹ã¸ã®å¤‰æ›
 				switch (wf.wBitsPerSample) {
 				case 8:
 					tmplong = ((long)((unsigned char*)tmpWaveData)[isample * wf.nChannels + ich] - 0x80L) * 0x100L;
@@ -559,7 +559,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 				tmplong = (long)(tmpdouble / (double)wf.nChannels);
 			}
 
-			//WAVEƒf[ƒ^‚Ìshort intŒ^‚©‚ç‚Ì•ÏŠ·
+			//WAVEãƒ‡ãƒ¼ã‚¿ã®short intå‹ã‹ã‚‰ã®å¤‰æ›
 			switch (SampleType) {
 			case ASIOSTInt16LSB:
 				((char*)WaveData)[isample * 2] = (char)tmplong;
@@ -589,16 +589,16 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			}
 		}
 
-		//WAVEƒf[ƒ^—pƒoƒbƒtƒ@‚Ì‰ğ•ú
+		//WAVEãƒ‡ãƒ¼ã‚¿ç”¨ãƒãƒƒãƒ•ã‚¡ã®è§£æ”¾
 		if (tmpWaveData != NULL) {
 			free(tmpWaveData);
 			tmpWaveData = NULL;
 		}
 
-		// ƒtƒHƒ“ƒg‚Ì‰Šúİ’è
+		// ãƒ•ã‚©ãƒ³ãƒˆã®åˆæœŸè¨­å®š
 		OnFont(hwnd);
 
-		//ASIOƒfƒoƒCƒX‚ÌÄ¶—pƒoƒbƒtƒ@‚Ì‰Šú‰»
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®å†ç”Ÿç”¨ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–
 		for (ich = 0; ich < numOutChannels; ich++) {
 			for (ibuf = 0; ibuf < NUMASIOBUFFERS; ibuf++) {
 				switch (SampleType) {
@@ -617,7 +617,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			}
 		}
 
-		//ASIOƒfƒoƒCƒX‚ÌŠJn
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®é–‹å§‹
 		asioresult = ASIOStart();
 		if (asioresult != ASE_OK) {
 			MessageBox(NULL, _T("ASIOStart"), _T("Error"), MB_ICONSTOP | MB_OK);
@@ -628,8 +628,8 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		OnCommand(hwnd, wparam);
 		break;
 	case WM_CLOSE:
-		//ƒvƒƒOƒ‰ƒ€‚ÌI—¹
-		if (IDYES == MessageBox(hwnd, _T("I—¹‚µ‚Ü‚·‚©H"), _T("I—¹Šm”F"), MB_YESNO)) {
+		//ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®çµ‚äº†
+		if (IDYES == MessageBox(hwnd, _T("çµ‚äº†ã—ã¾ã™ã‹ï¼Ÿ"), _T("çµ‚äº†ç¢ºèª"), MB_YESNO)) {
 			DestroyWindow(hwnd);
 		}
 		break;
@@ -645,26 +645,26 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 
 	case WM_DESTROY:
 
-		// Œãn––
+		// å¾Œå§‹æœ«
 		DeleteObject(hFont1);
 		DeleteObject(hFont2);
 		DeleteObject(hFont3);
 		DeleteObject(hFont4);
 		DeleteObject(hFont5);
 
-		//ASIOƒfƒoƒCƒX‚Ì’â~
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®åœæ­¢
 		asioresult = ASIOStop();
 		if (asioresult != ASE_OK) {
 			MessageBox(NULL, _T("ASIOStop"), _T("Error"), MB_ICONSTOP | MB_OK);
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ìƒoƒbƒtƒ@‚Ì‰ğ•ú
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒãƒƒãƒ•ã‚¡ã®è§£æ”¾
 		asioresult = ASIODisposeBuffers();
 		if (asioresult != ASE_OK) {
 			MessageBox(NULL, _T("ASIODisposeBuffers"), _T("Error"), MB_ICONSTOP | MB_OK);
 		}
 
-		//ASIOƒfƒoƒCƒX‚ÌƒNƒ[ƒY
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ã‚¯ãƒ­ãƒ¼ã‚º
 		if (isOpenedDevice == true) {
 			asioresult = ASIOExit();
 			if (asioresult != ASE_OK) {
@@ -673,18 +673,18 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			isOpenedDevice = false;
 		}
 
-		//ASIOƒfƒoƒCƒX‚Ìƒhƒ‰ƒCƒo‚ÌƒAƒ“ƒ[ƒh
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒ‰ãƒ©ã‚¤ãƒã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰
 		if (isLoadedDriver == true) {
 			asioDrivers->removeCurrentDriver();
 			isLoadedDriver = false;
 		}
 
-		//ASIOƒfƒoƒCƒX—pƒƒ‚ƒŠ—Ìˆæ‚Ì‰ğ•ú
+		//ASIOãƒ‡ãƒã‚¤ã‚¹ç”¨ãƒ¡ãƒ¢ãƒªé ˜åŸŸã®è§£æ”¾
 		if (asioDrivers != NULL) {
 			delete asioDrivers;
 		}
 
-		//WAVEƒf[ƒ^—pƒoƒbƒtƒ@‚Ì‰ğ•ú
+		//WAVEãƒ‡ãƒ¼ã‚¿ç”¨ãƒãƒƒãƒ•ã‚¡ã®è§£æ”¾
 		if (tmpWaveData != NULL) {
 			free(tmpWaveData);
 			tmpWaveData = NULL;
@@ -694,7 +694,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			WaveData = NULL;
 		}
 
-		//WAVEƒtƒ@ƒCƒ‹‚ÌƒNƒ[ƒY
+		//WAVEãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¯ãƒ­ãƒ¼ã‚º
 		if (hMmio != NULL) {
 			mmioClose(hMmio, 0);
 			hMmio = NULL;
@@ -712,7 +712,7 @@ LRESULT CALLBACK windowfunc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 
 
 
-//ASIOƒfƒoƒCƒX‚Ìƒoƒbƒtƒ@ˆ——pƒR[ƒ‹ƒoƒbƒNŠÖ”
+//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒãƒƒãƒ•ã‚¡å‡¦ç†ç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 void bufferswitch(long index, ASIOBool processNow) {
 	ASIOError	asioresult;
 	int			tmplenbuffer, isample, position;
@@ -720,7 +720,7 @@ void bufferswitch(long index, ASIOBool processNow) {
 	long		tmplong;
 	
 
-	//˜^‰¹ƒf[ƒ^(ƒNƒŠƒbƒNM†)‚Ì•ÏŠ·
+	//éŒ²éŸ³ãƒ‡ãƒ¼ã‚¿(ã‚¯ãƒªãƒƒã‚¯ä¿¡å·)ã®å¤‰æ›
 	for (isample = 0; isample < lenBuffer; isample++) {
 		switch (SampleType) {
 		case ASIOSTInt16LSB:
@@ -757,51 +757,51 @@ void bufferswitch(long index, ASIOBool processNow) {
 
 		if (tmpdouble >= THRESH || -tmpdouble >= THRESH) {
 			if (isPlaying == false || idxWaveData + isample > (FS * LENCHATTERING) / 1000) {
-				// ƒpƒ‰ƒ[ƒ^‚Ìİ’è
+				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š
 				isPlaying = true;
 				idxWaveData = 0;
 				position = isample;
 				call_count = 1;
-				// ‘O‰ñ‚Ìƒ{ƒ^ƒ“‰Ÿ‰º‚Ìæ“¾
+				// å‰å›ã®ãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚åˆ»ã®å–å¾—
 				if (CountButtonClicked)  before_start = start;
-				// Œ»İ‚Ìæ“¾
+				// ç¾åœ¨æ™‚åˆ»ã®å–å¾—
 				start = std::chrono::system_clock::now();
-				// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX‚Éƒ{ƒ^ƒ“‚Ì‰Ÿ‰º‚ğ•\¦
+				// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã«ãƒœã‚¿ãƒ³ã®æŠ¼ä¸‹æ™‚åˆ»ã‚’è¡¨ç¤º
 				SendNowTimeToEdit(hEdit1, getMilliTime(start));
 				if (CountButtonClicked) {
-					// ‘O‰ñ‚Ìƒ{ƒ^ƒ“‰Ÿ‰º‚Æ‚ÌŠÔ·‚ğŒvZ‚µA•\¦
+					// å‰å›ã®ãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚åˆ»ã¨ã®æ™‚é–“å·®ã‚’è¨ˆç®—ã—ã€è¡¨ç¤º
 					auto time = start - before_start;
 					SendMarginTimeToEdit(time);
-					// ƒxƒNƒ^[”z—ñ‚ÉŒ‹‰Ê‚ğ•Û‘¶
+					// ãƒ™ã‚¯ã‚¿ãƒ¼é…åˆ—ã«çµæœã‚’ä¿å­˜
 					GetMarginTime(time);
-					// ƒeƒLƒXƒg‚ÌÅŒã‚ÉƒJ[ƒ\ƒ‹‚ğˆÚ“®
+					// ãƒ†ã‚­ã‚¹ãƒˆã®æœ€å¾Œã«ã‚«ãƒ¼ã‚½ãƒ«ã‚’ç§»å‹•
 					ScrollToBottom(hEdit1);
 				}
 				if (!LABNormal) {
 					/////////////////////////
-					// ÀŒ±•û–@‚ª•Ï‘¥‚Ìê‡
+					// å®Ÿé¨“æ–¹æ³•ãŒå¤‰å‰‡ã®å ´åˆ
 					// ///////////////////////
-					/*‚±‚±‚ÉƒNƒŠƒbƒN‰¹‚ÌÄ¶ƒ^ƒCƒ~ƒ“ƒO‚ğ‚¸‚ç‚·‚½‚ß‚ÌƒvƒƒOƒ‰ƒ€‚ğ‘‚­B*/
+					/*ã“ã“ã«ã‚¯ãƒªãƒƒã‚¯éŸ³ã®å†ç”Ÿã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‚’ãšã‚‰ã™ãŸã‚ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æ›¸ãã€‚*/
 					if (!(CountButtonClicked % DelayTiming)) {
-						// Ä¶ƒ^ƒCƒ~ƒ“ƒO‚ğ‚¸‚ç‚·
+						// å†ç”Ÿã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‚’ãšã‚‰ã™
 						CalcLateNumberOfloops(hParentWindow, &DelayTimeUnique, DelayTime_ms, lenBuffer, FS, inlatency, outlatency);
 						NumberOfloops = NumberOfloops + DelayTimeUnique;
 					}else if(NumberOfloops != TempNumberOfLoops) {
 						NumberOfloops = TempNumberOfLoops;
 					}
 				}
-				// ÀŒ±I—¹‚Ì‚½‚ß‚ÌƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ğo—Í
+				// å®Ÿé¨“çµ‚äº†ã®ãŸã‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒœãƒƒã‚¯ã‚¹ã‚’å‡ºåŠ›
 				if (CountButtonClicked == TempNumberOfTrials) {
-					EnableWindow(GetDlgItem(hParentWindow, ID_LATESETTING), FALSE); // ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì–³Œø‰»
+					EnableWindow(GetDlgItem(hParentWindow, ID_LATESETTING), FALSE); // ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®ç„¡åŠ¹åŒ–
 					EnableWindow(GetDlgItem(hParentWindow, ID_LATESETTING_2), FALSE);
 					EnableWindow(GetDlgItem(hParentWindow, ID_LATEINI_2), FALSE);
 					EnableWindow(GetDlgItem(hParentWindow, ID_EDIT_LATEDATA_TIMING), FALSE);
 					EnableWindow(GetDlgItem(hParentWindow, ID_LATEINI), FALSE);
 
 					string TempNumberString = to_string(TempNumberOfTrials);
-					MessageBox(NULL, TempNumberString.c_str(), _T("I—¹‚Ì‡}"), MB_OK);
+					MessageBox(NULL, TempNumberString.c_str(), _T("çµ‚äº†ã®åˆå›³"), MB_OK);
 				}
-				// ƒ{ƒ^ƒ“‚Ì‰Ÿ‰º‰ñ”‚ğXV
+				// ãƒœã‚¿ãƒ³ã®æŠ¼ä¸‹å›æ•°ã‚’æ›´æ–°
 				SendCountButtonClicked(GetDlgItem(hParentWindow, ID_STATIC_COUNTBUTTONCLICKED_2), CountButtonClicked);
 				break;
 			}
@@ -811,7 +811,7 @@ void bufferswitch(long index, ASIOBool processNow) {
 		position = 0;
 	}
 
-	//ASIOƒfƒoƒCƒX‚ÌƒNƒŠƒbƒN‰¹Ä¶—pƒoƒbƒtƒ@‚ÌƒNƒŠƒA
+	//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ã‚¯ãƒªãƒƒã‚¯éŸ³å†ç”Ÿç”¨ãƒãƒƒãƒ•ã‚¡ã®ã‚¯ãƒªã‚¢
 	switch (SampleType) {
 	case ASIOSTInt16LSB:
 		memset(BufInfo[numInChannels + idChannelClick].buffers[index], 0, lenBuffer * 2);
@@ -833,9 +833,9 @@ void bufferswitch(long index, ASIOBool processNow) {
 		else {
 			tmplenbuffer = lenBuffer - position;
 		}
-		// ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚©‚ç(NumberOfloops)‰ñ–Ú‚ÌbufferswitchŒÄ‚Ño‚µ‚ÉWaveƒf[ƒ^‚ğƒRƒs[
+		// ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã‹ã‚‰(NumberOfloops)å›ç›®ã®bufferswitchå‘¼ã³å‡ºã—æ™‚ã«Waveãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼
 		if (call_count % NumberOfloops != 0) {
-			// ˜^‰¹ƒf[ƒ^(‰¹ºM†)‚ÌƒRƒs[io—Íƒoƒbƒtƒ@[2‚ÉƒRƒs[j
+			// éŒ²éŸ³ãƒ‡ãƒ¼ã‚¿(éŸ³å£°ä¿¡å·)ã®ã‚³ãƒ”ãƒ¼ï¼ˆå‡ºåŠ›ãƒãƒƒãƒ•ã‚¡ãƒ¼2ã«ã‚³ãƒ”ãƒ¼ï¼‰
 			/*switch (SampleType) {
 			case ASIOSTInt16LSB:
 				memcpy_s(BufInfo[numInChannels + idChannelClick].buffers[index], lenBuffer * 2, BufInfo[idChannelSound].buffers[index], lenBuffer * 2);
@@ -852,7 +852,7 @@ void bufferswitch(long index, ASIOBool processNow) {
 			call_count++;
 		}
 		else{
-			//WAVEƒf[ƒ^‚ÌƒNƒŠƒbƒN‰¹Ä¶—pƒoƒbƒtƒ@‚Ö‚ÌƒRƒs[io—Íƒoƒbƒtƒ@[2‚ÉƒRƒs[j
+			//WAVEãƒ‡ãƒ¼ã‚¿ã®ã‚¯ãƒªãƒƒã‚¯éŸ³å†ç”Ÿç”¨ãƒãƒƒãƒ•ã‚¡ã¸ã®ã‚³ãƒ”ãƒ¼ï¼ˆå‡ºåŠ›ãƒãƒƒãƒ•ã‚¡ãƒ¼2ã«ã‚³ãƒ”ãƒ¼ï¼‰
 			switch (SampleType) {
 			case ASIOSTInt16LSB:
 				memcpy_s((void*)&(((char*)(BufInfo[numInChannels + idChannelClick].buffers[index]))[position * 2]), tmplenbuffer * 2, (void*)&(((char*)WaveData)[idxWaveData * 2]), tmplenbuffer * 2);
@@ -872,7 +872,7 @@ void bufferswitch(long index, ASIOBool processNow) {
 			idxWaveData += tmplenbuffer;
 			if (idxWaveData >= lenWaveData) {
 				/////////////////////
-				//ƒpƒ‰ƒ[ƒ^‚Ìİ’è
+				//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š
 				////////////////////
 				isPlaying = false;
 				idxWaveData = 0;
@@ -881,7 +881,7 @@ void bufferswitch(long index, ASIOBool processNow) {
 			
 		}
 	}
-		//˜^‰¹ƒf[ƒ^(‰¹ºM†)‚ÌƒRƒs[io—Íƒoƒbƒtƒ@[1‚ÉƒRƒs[j
+		//éŒ²éŸ³ãƒ‡ãƒ¼ã‚¿(éŸ³å£°ä¿¡å·)ã®ã‚³ãƒ”ãƒ¼ï¼ˆå‡ºåŠ›ãƒãƒƒãƒ•ã‚¡ãƒ¼1ã«ã‚³ãƒ”ãƒ¼ï¼‰
 		switch (SampleType) {
 		case ASIOSTInt16LSB:
 			memcpy_s(BufInfo[numInChannels + idChannelSound].buffers[index], lenBuffer * 2, BufInfo[idChannelSound].buffers[index], lenBuffer * 2);
@@ -897,7 +897,7 @@ void bufferswitch(long index, ASIOBool processNow) {
 		}
 	
 
-	//Ä¶—pƒoƒbƒtƒ@‚Ì€”õŠ®—¹‚Ì’Ê’m
+	//å†ç”Ÿç”¨ãƒãƒƒãƒ•ã‚¡ã®æº–å‚™å®Œäº†ã®é€šçŸ¥
 	if (SupportASIOOutputReady == true) {
 		asioresult = ASIOOutputReady();
 		if (asioresult != ASE_OK) {
@@ -906,12 +906,12 @@ void bufferswitch(long index, ASIOBool processNow) {
 	}
 }
 
-// ’x‰„ŠÔ[ms]‚ğ•\¦
+// é…å»¶æ™‚é–“[ms]ã‚’è¡¨ç¤º
 bool SendMarginTimeToEdit(std::chrono::system_clock::duration time) {
 
 	auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(time).count();
 	std::string string_msec = std::to_string(msec);
-	std::string b = _T("ŠÔ·[ms]: ");
+	std::string b = _T("æ™‚é–“å·®[ms]: ");
 	string_msec = b + string_msec;
 	const char* str_msec = string_msec.c_str();
 	SendNowTimeToEdit(hEdit1, str_msec);
@@ -920,7 +920,7 @@ bool SendMarginTimeToEdit(std::chrono::system_clock::duration time) {
 	return true;
 }
 
-// ŠÔ·‚ğ”z—ñ‚É‘ã“ü‚µ‚Ä‚¢‚­‚½‚ß‚ÌŠÖ”
+// æ™‚é–“å·®ã‚’é…åˆ—ã«ä»£å…¥ã—ã¦ã„ããŸã‚ã®é–¢æ•°
 bool GetMarginTime(std::chrono::system_clock::duration time) {
 
 	string stringTime;
@@ -933,17 +933,17 @@ bool GetMarginTime(std::chrono::system_clock::duration time) {
 	return true;
 }
 
-// “¾‚ç‚ê‚½ŠÔ·‚ğcsvƒtƒ@ƒCƒ‹‚É‘‚«‚Ş‚½‚ß‚ÌŠÖ”
+// å¾—ã‚‰ã‚ŒãŸæ™‚é–“å·®ã‚’csvãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚€ãŸã‚ã®é–¢æ•°
 bool WriteToCSV(HWND hwnd, vector<string>& MarginTime, const string& filename) {
 	char Temp[MAX_PATH];
 	_stprintf_s(Temp, MAX_PATH,
-		_T("ˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚É‘‚«‚İ‚Ü‚µ‚½B\r\n%s"),
+		_T("ä»¥ä¸‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã¿ã¾ã—ãŸã€‚\r\n%s"),
 		filename.c_str());
 
-	// o—Íƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬
-	// ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍV‚½‚Éƒtƒ@ƒCƒ‹‚ğì¬A‘¶İ‚·‚éê‡‚Íƒtƒ@ƒCƒ‹‚Ì––”ö‚É‘‚«‚İ
+	// å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆ
+	// ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯æ–°ãŸã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã€å­˜åœ¨ã™ã‚‹å ´åˆã¯ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ«å°¾ã«æ›¸ãè¾¼ã¿
 		ofstream file(filename, ios::app);
-		// ƒJƒ“ƒ}‹æØ‚è‚ÅƒXƒgƒŠ[ƒ€‚É‘—‚é
+		// ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«é€ã‚‹
 		for (size_t i = 0; i < MarginTime.size(); ++i) {
 			file << MarginTime[i];
 			if (i != MarginTime.size() - 1) {
@@ -953,51 +953,51 @@ bool WriteToCSV(HWND hwnd, vector<string>& MarginTime, const string& filename) {
 		file << "\n";
 		file.close();
 
-		// ƒxƒNƒ^[‚Ì’†g‚Ìíœ
+		// ãƒ™ã‚¯ã‚¿ãƒ¼ã®ä¸­èº«ã®å‰Šé™¤
 		MarginTime.clear();
-		// ‘‚«‚İŠm”F
-		MessageBox(hwnd, Temp, _T("Œ‹‰Ê‚Ìo—Íæ‚ÌŠm”F"), MB_OK);
-		// ‰Ÿ‰º‰ñ”‚ÌXV
+		// æ›¸ãè¾¼ã¿ç¢ºèª
+		MessageBox(hwnd, Temp, _T("çµæœã®å‡ºåŠ›å…ˆã®ç¢ºèª"), MB_OK);
+		// æŠ¼ä¸‹å›æ•°ã®æ›´æ–°
 		CountButtonClicked = 0;
 		SetWindowText(GetDlgItem(hwnd, ID_STATIC_COUNTBUTTONCLICKED_2), _T("0"));
-		// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX‚Ì•\¦“à—e‚ğƒNƒŠƒA
+		// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã®è¡¨ç¤ºå†…å®¹ã‚’ã‚¯ãƒªã‚¢
 		SetWindowText(hEdit1, _T(""));
 
 	return true;
 }
 
-// ƒxƒNƒ^[‚Ì’†g‚ğíœ
+// ãƒ™ã‚¯ã‚¿ãƒ¼ã®ä¸­èº«ã‚’å‰Šé™¤
 bool ClearMarginTime(HWND hwnd, vector<string>& MarginTime) {
 
-	// ƒxƒNƒ^[‚Ì’†g‚Ìíœ
+	// ãƒ™ã‚¯ã‚¿ãƒ¼ã®ä¸­èº«ã®å‰Šé™¤
 	if (!MarginTime.empty()) {
 		MarginTime.clear();
-		// ƒ{ƒ^ƒ“‚Ì‰Ÿ‰º‰ñ”‚ÌXV
+		// ãƒœã‚¿ãƒ³ã®æŠ¼ä¸‹å›æ•°ã®æ›´æ–°
 		CountButtonClicked = 0;
 		SetWindowText(GetDlgItem(hwnd, ID_STATIC_COUNTBUTTONCLICKED_2), _T("0"));
-		// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX‚Ì•\¦“à—e‚ğƒNƒŠƒA
+		// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã®è¡¨ç¤ºå†…å®¹ã‚’ã‚¯ãƒªã‚¢
 		SetWindowText(hEdit1, _T(""));
 	}
 	else
 	{
-		MessageBox(hwnd, _T("”z—ñ‚É‚Í‰½‚à“ü‚Á‚Ä‚Ü‚¹‚ñB"), NULL, MB_OK);
+		MessageBox(hwnd, _T("é…åˆ—ã«ã¯ä½•ã‚‚å…¥ã£ã¦ã¾ã›ã‚“ã€‚"), NULL, MB_OK);
 	}
 	return true;
 }
 
-// ƒ{ƒ^ƒ“‚Ì‰Ÿ‰º‰ñ”‚ÌXV
+// ãƒœã‚¿ãƒ³ã®æŠ¼ä¸‹å›æ•°ã®æ›´æ–°
 bool SendCountButtonClicked(HWND hStatic, int& CountButtonClicked) {
-	// ƒ{ƒ^ƒ“‚Ì‰Ÿ‰º‰ñ”‚Ì‘—M
+	// ãƒœã‚¿ãƒ³ã®æŠ¼ä¸‹å›æ•°ã®é€ä¿¡
 	CountButtonClicked++;
 	string CountString = to_string(CountButtonClicked);
 	SetWindowText(hStatic, CountString.c_str());
 	return true;
 }
 
-// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX‚É‚ğ•\¦
+// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã«æ™‚åˆ»ã‚’è¡¨ç¤º
 bool SendNowTimeToEdit(HWND hwndEdit, const char* timeStr) {
 
-	// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX“à‚ÌŒ»İ‚Ì•¶š—ñ‚ğæ“¾
+	// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹å†…ã®ç¾åœ¨ã®æ–‡å­—åˆ—ã‚’å–å¾—
 	int length = GetWindowTextLength(hwndEdit);
 	char* existingText = new char[length + 1];
 	GetWindowText(hwndEdit, existingText, length + 1);
@@ -1006,44 +1006,49 @@ bool SendNowTimeToEdit(HWND hwndEdit, const char* timeStr) {
 	char* newText = new char[length + strlen(timeStr) + 3];
 	sprintf(newText, "%s\r\n%s", existingText, timeStr);
 
-	// V‚µ‚­ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX‚É•¶š‚ğƒZƒbƒg
+	// æ–°ã—ãã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã«æ–‡å­—ã‚’ã‚»ãƒƒãƒˆ
 	SetWindowText(hwndEdit, newText);
 
-	// Œãn––
+	// å¾Œå§‹æœ«
 	delete[] existingText;
 	delete[] newText;
 
 	return true;
 }
 
-// Œ»İ‚ğƒ~ƒŠ•b‚Ü‚Åæ“¾
+// ç¾åœ¨æ™‚åˆ»ã‚’ãƒŸãƒªç§’ã¾ã§å–å¾—
 const char* getMilliTime(std::chrono::system_clock::time_point now) {
-	// Œ»İ‚Ì‚ğæ“¾
+	// ç¾åœ¨ã®æ™‚åˆ»ã‚’å–å¾—
 	//auto now = std::chrono::system_clock::now();
 
-	// ƒGƒ|ƒbƒN‚©‚ç‚ÌŒo‰ßŠÔ‚ğ•b‚Æƒ~ƒŠ•b‚É•ªŠ„
+	// ã‚¨ãƒãƒƒã‚¯ã‹ã‚‰ã®çµŒéæ™‚é–“ã‚’ç§’ã¨ãƒŸãƒªç§’ã«åˆ†å‰²
 	auto seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
 	auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - seconds);
 
-	// std::time_t‚É•ÏŠ·
+	// std::time_tã«å¤‰æ›
 	std::time_t tt = std::chrono::system_clock::to_time_t(seconds);
 
-	// ‚ğƒ[ƒJƒ‹ƒ^ƒCƒ€‚É•ÏŠ·
+	// æ™‚åˆ»ã‚’ãƒ­ãƒ¼ã‚«ãƒ«ã‚¿ã‚¤ãƒ ã«å¤‰æ›
 	std::tm* tm = std::localtime(&tt);
 
-	// w’è‚³‚ê‚½Œ`®‚Åo—Í
-	std::ostringstream oss;
+	// æŒ‡å®šã•ã‚ŒãŸå½¢å¼ã§å‡ºåŠ›
+	std::ostringstream oss, oss2;
 	oss << std::put_time(tm, "%H:%M:%S") << '.'
 		<< std::setfill('0') << std::setw(3) << milliseconds.count();
 
-	// Œ‹‰Ê‚ğstatic std::string‚É•ÏŠ·
-	static std::string str, a;
+	// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ç”¨
+	oss2 << put_time(tm, "%m-%d");
+	
+	// çµæœã‚’static std::stringã«å¤‰æ›
+	static std::string str, str2, a;
 	
 	str = oss.str();
-	// ƒOƒ[ƒoƒ‹•Ï”‚É‚ğ‹L‰¯icsvƒtƒ@ƒCƒ‹‚É‘‚«‚ŞÛ‚É•K—v)
-	TimeStampButtonClicked = str;
-	a = _T("ƒ{ƒ^ƒ“‰Ÿ‰º: ");
-	// Œ‹‰Ê‚Ìconst char*‚ğ•Ô‚·
+	str2 = oss2.str();
+	
+	// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã«æ™‚åˆ»ã‚’è¨˜æ†¶ï¼ˆcsvãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚€éš›ã«å¿…è¦)
+	TimeStampButtonClicked = str2;
+	a = _T("ãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚åˆ»: ");
+	// çµæœã®const char*ã‚’è¿”ã™
 	str = a + str;
 	return str.c_str();
 }
@@ -1051,20 +1056,20 @@ const char* getMilliTime(std::chrono::system_clock::time_point now) {
 
 
 
-//ASIOƒfƒoƒCƒX‚Ìƒoƒbƒtƒ@ˆ—‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv—pƒR[ƒ‹ƒoƒbƒNŠÖ”
+//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ãƒãƒƒãƒ•ã‚¡å‡¦ç†æ™‚ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 ASIOTime* bufferswitchtimeinfo(ASIOTime* params, long doubleBufferIndex, ASIOBool directProcess)
 {
 	
 	return(0L);
 }
 
-//ASIOƒfƒoƒCƒX‚ÌƒTƒ“ƒvƒŠƒ“ƒOü”g”•ÏXŒŸo—pƒR[ƒ‹ƒoƒbƒNŠÖ”
+//ASIOãƒ‡ãƒã‚¤ã‚¹ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°å¤‰æ›´æ¤œå‡ºç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 void sampleratedidchange(ASIOSampleRate sRate)
 {
 	return;
 }
 
-//ASIOƒfƒoƒCƒX‚©‚ç‚ÌƒƒbƒZ[ƒW‚Ìˆ——pƒR[ƒ‹ƒoƒbƒNŠÖ”
+//ASIOãƒ‡ãƒã‚¤ã‚¹ã‹ã‚‰ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†ç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 long asiomessage(long selector, long value, void* message, double* opt)
 {
 	return(0L);
@@ -1072,32 +1077,32 @@ long asiomessage(long selector, long value, void* message, double* opt)
 
 
 
-// NumberOfloops‚Ì•\¦
+// NumberOfloopsã®è¡¨ç¤º
 bool DispNumberOfloops() {
 
 	return true;
 }
-// ƒtƒHƒ“ƒg‚Ìİ’è
+// ãƒ•ã‚©ãƒ³ãƒˆã®è¨­å®š
 bool OnFont(HWND hwnd) {
 
 	hFont1 = CreateFont(25, 0, 0, 0, FW_MEDIUM, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
-		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ƒƒCƒŠƒI"));
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ãƒ¡ã‚¤ãƒªã‚ª"));
 
 	hFont2 = CreateFont(22, 0, 0, 0, FW_MEDIUM, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
-		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ƒƒCƒŠƒI"));
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ãƒ¡ã‚¤ãƒªã‚ª"));
 
 	hFont3 = CreateFont(45, 0, 0, 0, FW_BOLD, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
-		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ƒƒCƒŠƒI"));
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ãƒ¡ã‚¤ãƒªã‚ª"));
 
 	hFont4 = CreateFont(18, 0, 0, 0, FW_MEDIUM, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
-		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ƒƒCƒŠƒI"));
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ãƒ¡ã‚¤ãƒªã‚ª"));
 
 	hFont5 = CreateFont(30, 0, 0, 0, FW_BOLD, false, false, false, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
-		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ƒƒCƒŠƒI"));
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, (VARIABLE_PITCH | FF_DONTCARE), _T("ãƒ¡ã‚¤ãƒªã‚ª"));
 
 	SendMessage(hEdit1, WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	SendMessage(hStaticTime, WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
-	// ƒXƒeƒeƒBƒbƒNƒRƒ“ƒgƒ[ƒ‹
+	// ã‚¹ãƒ†ãƒ†ã‚£ãƒƒã‚¯ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_NUMBERDELAY1), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_NUMBERDELAY2), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_COUNTBUTTONCLICKED), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
@@ -1123,18 +1128,18 @@ bool OnFont(HWND hwnd) {
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_COMBO_MS_2), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_LATEDATATIMING), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 
-	// ƒRƒ“ƒ{ƒ{ƒbƒNƒX
+	// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹
 	SendMessage(GetDlgItem(hwnd, ID_LATEINI), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_LATEINI_2), WM_SETFONT, (WPARAM)hFont4, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_LATESETTING), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_LATESETTING_2), WM_SETFONT, (WPARAM)hFont1, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_STATIC_LATESETTING_2), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 
-	// ƒvƒbƒVƒ…ƒ{ƒ^ƒ“
+	// ãƒ—ãƒƒã‚·ãƒ¥ãƒœã‚¿ãƒ³
 	SendMessage(GetDlgItem(hwnd, ID_BUTTON_CSV), WM_SETFONT, (WPARAM)hFont5
 		, MAKELPARAM(false, 0));
 	
-	// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX
+	// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹
 	SendMessage(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 	SendMessage(GetDlgItem(hwnd, ID_EDIT_FILEPATH), WM_SETFONT, (WPARAM)hFont2, MAKELPARAM(false, 0));
 
@@ -1143,29 +1148,29 @@ bool OnFont(HWND hwnd) {
 
 
 
-// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÉƒtƒH[ƒJƒX‚ª—ˆ‚½
+// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ãŒæ¥ãŸæ™‚
 bool LateIniFunc(HWND hWnd, WPARAM wParam) {
 
-		//ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+		//ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã§ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 		Num = GetNowComboStr(hWnd, ID_LATESETTING);
-		// NumberOfloops‚ğŒvZ
+		// NumberOfloopsã‚’è¨ˆç®—
 		CalcLateNumberOfloops(hWnd, &NumberOfloops, Num, lenBuffer, FS, inlatency, outlatency);
-		// NumberOfloops‚ğstd::stringŒ^‚É•ÏŠ·
+		// NumberOfloopsã‚’std::stringå‹ã«å¤‰æ›
 		string stringnum = to_string(NumberOfloops);
-		// ‰æ–Êã‚É•\¦
+		// ç”»é¢ä¸Šã«è¡¨ç¤º
 		SetWindowText(hStaticNumberOfloops2, stringnum.c_str());
-		// ƒOƒ[ƒoƒ‹•Ï”‚ÉNumberOfLoops‚Ì’l‚ğ‹L‰¯‚³‚¹‚é
+		// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã«NumberOfLoopsã®å€¤ã‚’è¨˜æ†¶ã•ã›ã‚‹
 		TempNumberOfLoops = NumberOfloops;
 
 	return true;
 }
 
-// ƒRƒ“ƒ{ƒ{ƒbƒNƒX(•Ï‘¥var)‚Ì€–Ú‚ª•ÏX‚³‚ê‚½
+// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹(å¤‰å‰‡var)ã®é …ç›®ãŒå¤‰æ›´ã•ã‚ŒãŸæ™‚
 bool LateIniFunc_2(HWND hWnd, WPARAM wParam) {
 
-	//ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+	//ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã§ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 	int LocalDelayTIme = GetNowComboStr(hWnd, ID_LATESETTING_2);
-	// ’x‰„‚Ìƒ^ƒCƒ~ƒ“ƒO
+	// é…å»¶ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°
 	char* lpstringDelayTiming = new char[50];
 	GetWindowText(GetDlgItem(hWnd, ID_EDIT_LATEDATA_TIMING), lpstringDelayTiming, 50);
 	DelayTiming = atoi(lpstringDelayTiming);
@@ -1177,14 +1182,14 @@ bool LateIniFunc_2(HWND hWnd, WPARAM wParam) {
 	return true;
 }
 
-// ƒRƒ“ƒ{ƒ{ƒbƒNƒX1‚Å‘I‘ğ‚³‚ê‚½ƒL[–¼‚É‘Î‰‚µ‚½’x‰„ŠÔ‚ğƒRƒ“ƒ{ƒ{ƒbƒNƒX‚É‹l‚ß‚éB
+// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹1ã§é¸æŠã•ã‚ŒãŸã‚­ãƒ¼åã«å¯¾å¿œã—ãŸé…å»¶æ™‚é–“ã‚’ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«è©°ã‚ã‚‹ã€‚
 bool SendLate2Combo(HWND hwnd, WPARAM wParam) {
 
 	
-		//ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+		//ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã§ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 		int intCurrentIndex = SendMessage(GetDlgItem(hwnd, (int)ID_LATEINI), CB_GETCURSEL, 0, 0);
 
-		// Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚Ì‚Ì•¶š—ñ‚Ì’·‚³‚ğæ“¾
+		// ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®ã®æ–‡å­—åˆ—ã®é•·ã•ã‚’å–å¾—
 		int intTxtLen = SendMessage(GetDlgItem(hwnd, (int)ID_LATEINI), CB_GETLBTEXTLEN, intCurrentIndex, 0);
 
 		if (intTxtLen != CB_ERR){
@@ -1194,15 +1199,15 @@ bool SendLate2Combo(HWND hwnd, WPARAM wParam) {
 				char settingpath[MAX_PATH + 1];
 				if (GetModuleFileName(NULL, Path, MAX_PATH) != 0) {
 					char drive[MAX_PATH + 1], dir[MAX_PATH + 1], fname[MAX_PATH + 1], ext[MAX_PATH + 1];
-					// ƒpƒX–¼‚ğ•ª‰ğ
+					// ãƒ‘ã‚¹åã‚’åˆ†è§£
 					_splitpath(Path, drive, dir, fname, ext);
 					_stprintf_s(settingpath, MAX_PATH + 1, _T("%s%ssetting.ini"), drive, dir);
 				}
 				char latedata[256];
-				// iniƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+				// iniãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 				GetPrivateProfileString(pszBuf, _T("data"), _T("Error"), latedata, sizeof(latedata), settingpath);
 
-				// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì’†g‚ğÁ‹
+				// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®ä¸­èº«ã‚’æ¶ˆå»
 				while (SendMessage(GetDlgItem(hwnd, (int)ID_LATESETTING), CB_GETCOUNT, 0, 0)){
 					SendMessage(GetDlgItem(hwnd, (int)ID_LATESETTING), CB_DELETESTRING, 0, 0);
 				}
@@ -1215,11 +1220,11 @@ bool SendLate2Combo(HWND hwnd, WPARAM wParam) {
 				while (getline(ss, s, ',')) {
 					char* cstr = new char[s.size() + 1];
 					char_traits<char>::copy(cstr, s.c_str(), s.size() + 1);
-					// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚É•¶š—ñ‚ğ‘}“ü
+					// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«æ–‡å­—åˆ—ã‚’æŒ¿å…¥
 					SendMessage(GetDlgItem(hwnd, ID_LATESETTING), CB_INSERTSTRING, i, (LPARAM)cstr);
 					i++;
 				}
-				// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Éæ“ª‚Ì—v‘f‚ğƒZƒbƒg
+				// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«å…ˆé ­ã®è¦ç´ ã‚’ã‚»ãƒƒãƒˆ
 				SendMessage(GetDlgItem(hwnd, ID_LATESETTING), CB_SETCURSEL, 0, 0);
 			}
 			
@@ -1228,14 +1233,14 @@ bool SendLate2Combo(HWND hwnd, WPARAM wParam) {
 	
 	return true;
 }
-// ƒRƒ“ƒ{ƒ{ƒbƒNƒX1‚Å‘I‘ğ‚³‚ê‚½ƒL[–¼‚É‘Î‰‚µ‚½’x‰„ŠÔ‚ğƒRƒ“ƒ{ƒ{ƒbƒNƒX‚É‹l‚ß‚éB
+// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹1ã§é¸æŠã•ã‚ŒãŸã‚­ãƒ¼åã«å¯¾å¿œã—ãŸé…å»¶æ™‚é–“ã‚’ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«è©°ã‚ã‚‹ã€‚
 bool SendLate2Combo_2(HWND hwnd, WPARAM wParam) {
 
 
-	//ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+	//ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã§ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 	int intCurrentIndex = SendMessage(GetDlgItem(hwnd, (int)ID_LATEINI_2), CB_GETCURSEL, 0, 0);
 
-	// Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚Ì‚Ì•¶š—ñ‚Ì’·‚³‚ğæ“¾
+	// ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®ã®æ–‡å­—åˆ—ã®é•·ã•ã‚’å–å¾—
 	int intTxtLen = SendMessage(GetDlgItem(hwnd, (int)ID_LATEINI_2), CB_GETLBTEXTLEN, intCurrentIndex, 0);
 
 	if (intTxtLen != CB_ERR) {
@@ -1245,15 +1250,15 @@ bool SendLate2Combo_2(HWND hwnd, WPARAM wParam) {
 			char settingpath[MAX_PATH + 1];
 			if (GetModuleFileName(NULL, Path, MAX_PATH) != 0) {
 				char drive[MAX_PATH + 1], dir[MAX_PATH + 1], fname[MAX_PATH + 1], ext[MAX_PATH + 1];
-				// ƒpƒX–¼‚ğ•ª‰ğ
+				// ãƒ‘ã‚¹åã‚’åˆ†è§£
 				_splitpath(Path, drive, dir, fname, ext);
 				_stprintf_s(settingpath, MAX_PATH + 1, _T("%s%ssetting.ini"), drive, dir);
 			}
 			char latedata[256];
-			// iniƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+			// iniãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 			GetPrivateProfileString(pszBuf, _T("data"), _T("Error"), latedata, sizeof(latedata), settingpath);
 
-			// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì’†g‚ğÁ‹
+			// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®ä¸­èº«ã‚’æ¶ˆå»
 			while (SendMessage(GetDlgItem(hwnd, (int)ID_LATESETTING_2), CB_GETCOUNT, 0, 0)) {
 				SendMessage(GetDlgItem(hwnd, (int)ID_LATESETTING_2), CB_DELETESTRING, 0, 0);
 			}
@@ -1266,11 +1271,11 @@ bool SendLate2Combo_2(HWND hwnd, WPARAM wParam) {
 			while (getline(ss, s, ',')) {
 				char* cstr = new char[s.size() + 1];
 				char_traits<char>::copy(cstr, s.c_str(), s.size() + 1);
-				// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚É•¶š—ñ‚ğ‘}“ü
+				// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«æ–‡å­—åˆ—ã‚’æŒ¿å…¥
 				SendMessage(GetDlgItem(hwnd, ID_LATESETTING_2), CB_INSERTSTRING, i, (LPARAM)cstr);
 				i++;
 			}
-			// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Éæ“ª‚Ì—v‘f‚ğƒZƒbƒg
+			// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«å…ˆé ­ã®è¦ç´ ã‚’ã‚»ãƒƒãƒˆ
 			SendMessage(GetDlgItem(hwnd, ID_LATESETTING_2), CB_SETCURSEL, 0, 0);
 		}
 
@@ -1280,21 +1285,21 @@ bool SendLate2Combo_2(HWND hwnd, WPARAM wParam) {
 	return true;
 }
 
-// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚Ì•¶š—ñ‚ğæ“¾‚·‚éŠÖ”
+// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã§ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹é–¢æ•°
 int GetNowComboStr(HWND hWnd, int comboID) {
 
 	int LocalNum;
-	//ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+	//ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã§ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 	int intCurrentIndex = SendMessage(GetDlgItem(hWnd, (int)comboID), CB_GETCURSEL, 0, 0);
 
-	// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÌŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚Ì•¶š—ñ‚Ì’·‚³‚ğæ“¾
+	// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®æ–‡å­—åˆ—ã®é•·ã•ã‚’å–å¾—
 	int intTxtLen = SendMessage(GetDlgItem(hWnd, (int)comboID), CB_GETLBTEXTLEN, intCurrentIndex, 0);
 
 	if (intTxtLen != CB_ERR) {
 		char* pszBuf = new char[intTxtLen + 1];
-		// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ìˆê——‚©‚ç‘I‘ğ‚µ‚½€–Ú‚Ì•¶š—ñ‚ğæ“¾
+		// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®ä¸€è¦§ã‹ã‚‰é¸æŠã—ãŸé …ç›®ã®æ–‡å­—åˆ—ã‚’å–å¾—
 		if (SendMessage(GetDlgItem(hWnd, (int)comboID), CB_GETLBTEXT, intCurrentIndex, (LPARAM)pszBuf) != CB_ERR) {
-			// char*Œ^‚ğintŒ^‚É•ÏŠ·
+			// char*å‹ã‚’intå‹ã«å¤‰æ›
 			 LocalNum = atoi(pszBuf);
 		}
 
@@ -1304,62 +1309,62 @@ int GetNowComboStr(HWND hWnd, int comboID) {
 }
 
 
-// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì‘I‘ğ€–Ú‚©‚ç’x‰„ŠÔ‚ğZo
+// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®é¸æŠé …ç›®ã‹ã‚‰é…å»¶æ™‚é–“ã‚’ç®—å‡º
 bool CalcLateNumberOfloops(HWND hwnd, int* NumberOfloops, int  Num, int lenbuffer, int rate, long inlatency, long outlatency){
-	/* ˆø”: ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹, ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚©‚ç“¾‚é•¶š—ñ, ƒoƒbƒtƒ@’·, ƒTƒ“ƒvƒŠƒ“ƒOü”g”, 
-	*          ƒCƒ“ƒvƒbƒgƒŒƒCƒeƒ“ƒV, ƒAƒEƒgƒvƒbƒgƒŒƒCƒeƒ“ƒV
+	/* å¼•æ•°: ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«, ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã‹ã‚‰å¾—ã‚‹æ–‡å­—åˆ—, ãƒãƒƒãƒ•ã‚¡é•·, ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°, 
+	*          ã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ¬ã‚¤ãƒ†ãƒ³ã‚·, ã‚¢ã‚¦ãƒˆãƒ—ãƒƒãƒˆãƒ¬ã‚¤ãƒ†ãƒ³ã‚·
 	*/
 	////////////////////////
-	// •Ï”‚ğms’PˆÊ‚É•ÏŠ·
+	// å¤‰æ•°ã‚’mså˜ä½ã«å¤‰æ›
 	//////////////////////////
 	TCHAR NumberOfloopsInfo[LENSTR];
-	// “ü—ÍƒŒƒCƒeƒ“ƒV[iƒoƒbƒtƒ@2ŒÂ•ª‚ÌŠÔ‚ğŒ¸Zj
+	// å…¥åŠ›ãƒ¬ã‚¤ãƒ†ãƒ³ã‚·ãƒ¼ï¼ˆãƒãƒƒãƒ•ã‚¡2å€‹åˆ†ã®æ™‚é–“ã‚’æ¸›ç®—ï¼‰
 	double inlatency_ms = (double)inlatency * 1000.0 / (double)rate - (double)lenbuffer * 2.0 * 1000.0 / (double)rate;
-	// o—ÍƒŒƒCƒeƒ“ƒV[
+	// å‡ºåŠ›ãƒ¬ã‚¤ãƒ†ãƒ³ã‚·ãƒ¼
 	double outlatency_ms = (double)outlatency * 1000.0 / (double)rate;
-	// ƒpƒ‹ƒX”g”­¶‰ñ˜H‚Å‚Ì’x‰„
+	// ãƒ‘ãƒ«ã‚¹æ³¢ç™ºç”Ÿå›è·¯ã§ã®é…å»¶
 	double kairo = (double)KAIROLATE;
 
-	// NumberOfloops‚ÌŒvZ
+	// NumberOfloopsã®è¨ˆç®—
 	*NumberOfloops = ((double)Num - (inlatency_ms + outlatency_ms + kairo)) * (double)rate / ((double)lenbuffer * 1000.0);
 
-	// NumberOfloops == 0‚Ì‚Æ‚«A1‚ÉXV
+	// NumberOfloops == 0ã®ã¨ãã€1ã«æ›´æ–°
 	if (*NumberOfloops < 1) *NumberOfloops = 1;
 
 
-	////ƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚Ö‚Ìo—Í
+	////ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒœãƒƒã‚¯ã‚¹ã¸ã®å‡ºåŠ›
 	//_stprintf_s(NumberOfloopsInfo, LENSTR,
-	//	_T("“ü—ÍƒŒƒCƒeƒ“ƒV: %f [ms]\n"
-	//	"o—ÍƒŒƒCƒeƒ“ƒV: %f [ms]\n"
-	//	"“üo—ÍƒŒƒCƒeƒ“ƒV: %f [ms]\n"
-	//	"’x‰„‚³‚¹‚½‚¢ŠÔ: %d [ms]\n"
-	//	"‰ñ˜H‚É‚æ‚é’x‰„: %f [ms]\n"
-	//	"ƒoƒbƒtƒ@’·: %d [points]\n"
+	//	_T("å…¥åŠ›ãƒ¬ã‚¤ãƒ†ãƒ³ã‚·: %f [ms]\n"
+	//	"å‡ºåŠ›ãƒ¬ã‚¤ãƒ†ãƒ³ã‚·: %f [ms]\n"
+	//	"å…¥å‡ºåŠ›ãƒ¬ã‚¤ãƒ†ãƒ³ã‚·: %f [ms]\n"
+	//	"é…å»¶ã•ã›ãŸã„æ™‚é–“: %d [ms]\n"
+	//	"å›è·¯ã«ã‚ˆã‚‹é…å»¶: %f [ms]\n"
+	//	"ãƒãƒƒãƒ•ã‚¡é•·: %d [points]\n"
 	//	"Fs: %d [Hz]\n"
 	//	"NumberOfloops = %d\n"
 	//	"NumberOfloops(double) = %f"),
 	//	inlatency_ms, outlatency_ms, inlatency_ms + outlatency_ms, Num, kairo, lenbuffer, rate, *NumberOfloops,
 	//	((double)Num - (inlatency_ms + outlatency_ms + kairo)) * (double)rate / ((double)lenbuffer * 1000.0));
 
-	//MessageBox(hwnd, NumberOfloopsInfo, _T("ŒvZŒ‹‰Ê"), MB_OK);
+	//MessageBox(hwnd, NumberOfloopsInfo, _T("è¨ˆç®—çµæœ"), MB_OK);
 
 	return true;
 
 }
 
-// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX‚ğ©“®“I‚É‰º‚Ü‚ÅƒXƒNƒ[ƒ‹‚·‚é
+// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã‚’è‡ªå‹•çš„ã«ä¸‹ã¾ã§ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
 bool ScrollToBottom(HWND hEditBox) {
-	// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX“à‚Ì•¶š—ñ‚Ì’·‚³‚ğæ“¾
+	// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹å†…ã®æ–‡å­—åˆ—ã®é•·ã•ã‚’å–å¾—
 	int len = GetWindowTextLength(hEditBox);
-	// ‰½‚à‘I‘ğ‚¹‚¸‚ÉƒGƒfƒBƒbƒgƒ{ƒbƒNƒX“à‚ÌƒeƒLƒXƒg‚ÌÅŒã‚ÉƒLƒƒƒŒƒbƒg‚ğˆÚ“®
+	// ä½•ã‚‚é¸æŠã›ãšã«ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹å†…ã®ãƒ†ã‚­ã‚¹ãƒˆã®æœ€å¾Œã«ã‚­ãƒ£ãƒ¬ãƒƒãƒˆã‚’ç§»å‹•
 	SendMessage(hEditBox, EM_SETSEL, (WPARAM)len, (LPARAM)len);
-	// ƒGƒfƒBƒbƒgƒ{ƒbƒNƒX‚ğƒJ[ƒ\ƒ‹‚Ü‚ÅƒXƒNƒ[ƒ‹‚·‚é
+	// ã‚¨ãƒ‡ã‚£ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã‚’ã‚«ãƒ¼ã‚½ãƒ«ã¾ã§ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
 	SendMessage(hEditBox, EM_SCROLLCARET, 0, 0);
 
 	return true;
 }
 
-// ”íŒ±Òî•ñ‚ğƒxƒNƒ^‚É•Û‘¶
+// è¢«é¨“è€…æƒ…å ±ã‚’ãƒ™ã‚¯ã‚¿ã«ä¿å­˜
 bool GetEditBoxTextFunc(HWND hwnd) {
 	char* lpstringOld = new char[10];
 	char* lpstringName = new char[50];
@@ -1394,28 +1399,28 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 
 	switch (LOWORD(wparam)) {
 	case ID_ASIOINFORMATION:
-		//ASIOî•ñ‚Ì•\¦
+		//ASIOæƒ…å ±ã®è¡¨ç¤º
 		MessageBox(NULL, strASIOInfo, _T("ASIO"), MB_OK);
 		break;
 
 	case ID_WAVEFILEINFORMATION:
-		//Waveƒtƒ@ƒCƒ‹î•ñ‚Ì•\¦
+		//Waveãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã®è¡¨ç¤º
 		MessageBox(NULL, strWaveFileInfo, _T("Wave File"), MB_OK);
 		break;
 
 	case ID_EXIT:
-		//ƒvƒƒOƒ‰ƒ€‚ÌI—¹
-		if (IDYES == MessageBox(hwnd, _T("I—¹‚µ‚Ü‚·‚©H"), _T("I—¹Šm”F"), MB_YESNO)) {
+		//ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®çµ‚äº†
+		if (IDYES == MessageBox(hwnd, _T("çµ‚äº†ã—ã¾ã™ã‹ï¼Ÿ"), _T("çµ‚äº†ç¢ºèª"), MB_YESNO)) {
 			DestroyWindow(hwnd);
 		}
 		break;
 		
-		// ’x‰„ŠÔ‚Ìİ’è
-		// ”z—ñ‚Ìíœ
+		// é…å»¶æ™‚é–“ã®è¨­å®š
+		// é…åˆ—ã®å‰Šé™¤
 	case ID_MENU_RESTART:
-		if (MessageBox(hwnd, _T("Œ‹‰Ê‚ğƒtƒ@ƒCƒ‹‚É‘‚«‚İ‚Ü‚µ‚½‚©H"), _T("Šm”F"), MB_YESNO) == IDYES) {
+		if (MessageBox(hwnd, _T("çµæœã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã¿ã¾ã—ãŸã‹ï¼Ÿ"), _T("ç¢ºèª"), MB_YESNO) == IDYES) {
 			if (ClearMarginTime(hwnd, MarginTime)) {
-				MessageBox(hwnd, _T("Œ‹‰Ê‚ğíœ‚µ‚Ü‚µ‚½B"), _T("íœŠ®—¹"), MB_OK);
+				MessageBox(hwnd, _T("çµæœã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚"), _T("å‰Šé™¤å®Œäº†"), MB_OK);
 			}
 		}
 		break;
@@ -1423,14 +1428,14 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		/*NumberOfloops = 1;
 		SetWindowText(hStaticNumberOfloops2, _T("1"));*/
 		if (ClearMarginTime(hwnd, MarginTime)) {
-			MessageBox(hwnd, _T("Œ‹‰Ê‚ğíœ‚µ‚Ü‚µ‚½B"), _T("íœŠ®—¹"), MB_OK);
+			MessageBox(hwnd, _T("çµæœã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚"), _T("å‰Šé™¤å®Œäº†"), MB_OK);
 		}
 		break;
 		///////////////////
-		// ƒRƒ“ƒ{ƒ{ƒbƒNƒX
+		// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹
 		///////////////////
 	case ID_LATEINI:
-		// Šî–{î•ñ
+		// åŸºæœ¬æƒ…å ±
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			SendLate2Combo(hwnd, wparam);
 			LateIniFunc(hwnd, wparam);
@@ -1438,27 +1443,27 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		break;
 		
 	case ID_LATESETTING:
-		// Ú×î•ñ
+		// è©³ç´°æƒ…å ±
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			LateIniFunc(hwnd, wparam);
 		}
 		break;
 
 	case ID_LATEINI_2:
-		// Šî–{î•ñ(•Ï‘¥var)
+		// åŸºæœ¬æƒ…å ±(å¤‰å‰‡var)
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			SendLate2Combo_2(hwnd, wparam);
 			LateIniFunc_2(hwnd, wparam);
 		}
 		break;
 	case ID_LATESETTING_2:
-		//@Ú×î•ñ(•Ï‘¥var)
+		//ã€€è©³ç´°æƒ…å ±(å¤‰å‰‡var)
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			LateIniFunc_2(hwnd, wparam);
 		}
 		break;
 
-	// æ“¾‰ñ”‚Ìİ’è
+	// å–å¾—å›æ•°ã®è¨­å®š
 	case ID_STATIC_TRIALS_NUM:
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			int itemIndex = SendMessage(GetDlgItem(hwnd, ID_STATIC_TRIALS_NUM), CB_GETCURSEL, 0, 0);
@@ -1470,23 +1475,23 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 			}
 		}
 		break;
-		// ÀŒ±•û–@‚Ì‘I‘ğ
+		// å®Ÿé¨“æ–¹æ³•ã®é¸æŠ
 	case ID_STATIC_NORMALORIRREG:
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			int itemIndex = SendMessage(GetDlgItem(hwnd, ID_STATIC_NORMALORIRREG), CB_GETCURSEL, 0, 0);
 			if (itemIndex != CB_ERR) {
 				if (itemIndex) {
 					/*if (DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_MYDIALOG), hwnd, DialogProc) == -1) {
-						MessageBox(hwnd, _T("ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½B"), _T("ƒGƒ‰["), MB_OK);
+						MessageBox(hwnd, _T("ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ãƒœãƒƒã‚¯ã‚¹ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸã€‚"), _T("ã‚¨ãƒ©ãƒ¼"), MB_OK);
 					}*/
 					EnableWindow(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), TRUE);
 					EnableWindow(GetDlgItem(hwnd, ID_LATEINI_2), TRUE);
 					EnableWindow(GetDlgItem(hwnd, ID_LATESETTING_2), TRUE);
-					// ’x‰„‚Ìƒ^ƒCƒ~ƒ“ƒO
+					// é…å»¶ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°
 					char* lpstringDelayTiming = new char[50];
 					GetWindowText(GetDlgItem(hwnd, ID_EDIT_LATEDATA_TIMING), lpstringDelayTiming, 50);
 					DelayTiming = atoi(lpstringDelayTiming);
-					//ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+					//ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã§ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 					int LocalDelayTIme = GetNowComboStr(hwnd, ID_LATESETTING_2);
 					DelayTime_ms = LocalDelayTIme;
 
@@ -1503,30 +1508,30 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 			}
 		}
 		break;
-		// BPM‚Ì‘I‘ğ
+		// BPMã®é¸æŠ
 	case ID_STATIC_BPMNUM:
 		if (HIWORD(wparam) == CBN_SELCHANGE) {
 			int itemIndex = SendMessage(GetDlgItem(hwnd, ID_STATIC_BPMNUM), CB_GETCURSEL, 0, 0);
 			if (itemIndex != CB_ERR) {
-				/*BPM‚Ì•ÏX‚É”º‚¤ˆ—‚ğ‚±‚±‚É‘‚­*/
+				/*BPMã®å¤‰æ›´ã«ä¼´ã†å‡¦ç†ã‚’ã“ã“ã«æ›¸ã*/
 			}
 		}
 		break;
 	////////////////////////////////
-	// uƒƒjƒ…[v¨uÀŒ±•û–@v
+	// ã€Œãƒ¡ãƒ‹ãƒ¥ãƒ¼ã€â†’ã€Œå®Ÿé¨“æ–¹æ³•ã€
 	// /////////////////////////////
 	case ID_MENU_NORMAL:
-		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_NORMALORIRREG), _T("’Êí"));
+		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_NORMALORIRREG), _T("é€šå¸¸"));
 		LABNormal = true;
 		break;
 	case ID_MENU_IRREG:
-		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_NORMALORIRREG), _T("•Ï‘¥"));
+		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_NORMALORIRREG), _T("å¤‰å‰‡"));
 		LABNormal = false;
 		break;
 	///////////////////////////
-	// uƒƒjƒ…[v¨uİ’èv
+	// ã€Œãƒ¡ãƒ‹ãƒ¥ãƒ¼ã€â†’ã€Œè¨­å®šã€
 	///////////////////////////
-	// BPM‚Ì‘I‘ğiBPM‚É‚æ‚Á‚ÄŒ‹‰Ê‚Ìo—Íæ‚ğ•ÏX‚·‚é)
+	// BPMã®é¸æŠï¼ˆBPMã«ã‚ˆã£ã¦çµæœã®å‡ºåŠ›å…ˆã‚’å¤‰æ›´ã™ã‚‹)
 	case ID_BPM60:
 		//CSVFILENAME = _T("RESULT\\ResultCSV60.csv"); 
 		CSVFILENAME = _T("RESULT\\Result_onlylight\\Result60BPM10ms.csv");
@@ -1558,7 +1563,7 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_BPMNUM), _T("110"));
 		break;
 	////////
-	// s‰ñ”
+	// è©¦è¡Œå›æ•°
 	///	/////////
 	case ID_MENU_NUM20:
 		TempNumberOfTrials = 20;
@@ -1573,55 +1578,55 @@ bool OnCommand(HWND hwnd, WPARAM wparam) {
 		SetWindowText(GetDlgItem(hParentWindow, ID_STATIC_TRIALS_NUM), _T("40"));
 		break;
 		///////////////
-	// ƒtƒ@ƒCƒ‹‚Ìw’è
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã®æŒ‡å®š
 		////////////////
 	case ID_MENU_CSV_OUTPUT:
 	{
 		
-		// ƒtƒ@ƒCƒ‹‘I‘ğ—pƒ_ƒCƒAƒƒO‚Ì•\¦
+		// ãƒ•ã‚¡ã‚¤ãƒ«é¸æŠç”¨ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤º
 		SelectFile(hwnd, FileNameCSV);
-		// ƒpƒX–¼‚ğstringŒ^‚É•ÏŠ·
+		// ãƒ‘ã‚¹åã‚’stringå‹ã«å¤‰æ›
 		CSVFILENAME = FileNameCSV;
-		// o—Íæƒtƒ@ƒCƒ‹‚ğƒEƒBƒ“ƒhƒEã‚É•\¦
+		// å‡ºåŠ›å…ˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä¸Šã«è¡¨ç¤º
 		RelativepathFromAbsolutepath(FileNameCSV, hwnd);
 	}
 		break;
-		// ƒvƒbƒVƒ…ƒ{ƒ^ƒ“
+		// ãƒ—ãƒƒã‚·ãƒ¥ãƒœã‚¿ãƒ³
 	case ID_BUTTON_CSV:
 		if (HIWORD(wparam) == BN_CLICKED) {
-			// ”N—î‚Æ–¼‘O‚ª‘‚©‚ê‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN
+			// å¹´é½¢ã¨åå‰ãŒæ›¸ã‹ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 			short length_1 = GetWindowTextLength(GetDlgItem(hwnd, ID_EDIT_OLD));
 			short length_2 = GetWindowTextLength(GetDlgItem(hwnd, ID_EDIT_NAME));
 			if (length_1 * length_2 == 0) {
-				// Edit Box‚ª‹ó
-				MessageBox(hwnd, _T("–¼‘O‚Æ”N—î‚Ì‚Ç‚¿‚ç‚©A‚à‚µ‚­‚Í‚»‚Ì—¼•û‚ª–¢“ü—Í‚Å‚·B"), _T("Œx"), MB_OK | MB_ICONWARNING);
+				// Edit BoxãŒç©º
+				MessageBox(hwnd, _T("åå‰ã¨å¹´é½¢ã®ã©ã¡ã‚‰ã‹ã€ã‚‚ã—ãã¯ãã®ä¸¡æ–¹ãŒæœªå…¥åŠ›ã§ã™ã€‚"), _T("è­¦å‘Š"), MB_OK | MB_ICONWARNING);
 				break;
 			}
-			// Šù‚ÉŠJ‚©‚ê‚Ä‚¢‚é‚©‚ğƒ`ƒFƒbƒN
+			// æ—¢ã«é–‹ã‹ã‚Œã¦ã„ã‚‹ã‹ã‚’ãƒã‚§ãƒƒã‚¯
 			if (!CheckCanWriteFile(hwnd, FileNameCSV)) {
-				// ƒtƒ@ƒCƒ‹‚ğŠJ‚­‚Ì‚É¸”s‚µ‚½ê‡A‘‚«‚İ‚ª•s‰Â”\‚Å‚ ‚é‰Â”\«‚ª‚‚¢
-				MessageBox(hwnd, _T("ƒtƒ@ƒCƒ‹‚É‘‚«‚ß‚Ü‚¹‚ñBƒtƒ@ƒCƒ‹‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢‚©Šù‚ÉŠJ‚©‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B"), _T("Œx"), MB_OK | MB_ICONWARNING);
+				// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã®ã«å¤±æ•—ã—ãŸå ´åˆã€æ›¸ãè¾¼ã¿ãŒä¸å¯èƒ½ã§ã‚ã‚‹å¯èƒ½æ€§ãŒé«˜ã„
+				MessageBox(hwnd, _T("ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚ã¾ã›ã‚“ã€‚ãƒ•ã‚¡ã‚¤ãƒ«ãŒé¸æŠã•ã‚Œã¦ã„ãªã„ã‹æ—¢ã«é–‹ã‹ã‚Œã¦ã„ã‚‹å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚"), _T("è­¦å‘Š"), MB_OK | MB_ICONWARNING);
 				break;
 			}
-			// ’l‚Ì‘‚«‚İ
-			GetEditBoxTextFunc(hParentWindow);                                            // ”íŒ±Òî•ñ‚ğƒxƒNƒ^‚Ìæ“ª‚É‘ã“ü 
-			MarginTime.insert(MarginTime.begin(), to_string(Num));                 // ’x‰„ŠÔ‚ğƒxƒNƒ^‚Ìæ“ª‚É‘ã“ü
-			MarginTime.insert(MarginTime.begin(), TimeStampButtonClicked);   // ‰Ÿ‰º‚ğƒxƒNƒ^‚Ìæ“ª‚É‘ã“ü
+			// å€¤ã®æ›¸ãè¾¼ã¿
+			GetEditBoxTextFunc(hParentWindow);                                            // è¢«é¨“è€…æƒ…å ±ã‚’ãƒ™ã‚¯ã‚¿ã®å…ˆé ­ã«ä»£å…¥ 
+			MarginTime.insert(MarginTime.begin(), to_string(Num));                 // é…å»¶æ™‚é–“ã‚’ãƒ™ã‚¯ã‚¿ã®å…ˆé ­ã«ä»£å…¥
+			MarginTime.insert(MarginTime.begin(), TimeStampButtonClicked);   // æŠ¼ä¸‹æ™‚åˆ»ã‚’ãƒ™ã‚¯ã‚¿ã®å…ˆé ­ã«ä»£å…¥
 			if (!LABNormal) {
 				string tempunique = _T("irregular");
 				string stringDelayTiming = to_string(DelayTiming);
 				string stringDelayTime_ms = to_string(DelayTime_ms);
 
-				// ÀŒ±ğŒ‚ª•Ï‘¥‚Ìê‡AƒxƒNƒ^‚Ìæ“ª‚É•¶š—ñ‚ğ‘ã“ü
-				MarginTime.insert(MarginTime.begin(), stringDelayTiming);        // ’x‰„‚Ìƒ^ƒCƒ~ƒ“ƒO
-				MarginTime.insert(MarginTime.begin(), stringDelayTime_ms);    // ’x‰„ŠÔ
+				// å®Ÿé¨“æ¡ä»¶ãŒå¤‰å‰‡ã®å ´åˆã€ãƒ™ã‚¯ã‚¿ã®å…ˆé ­ã«æ–‡å­—åˆ—ã‚’ä»£å…¥
+				MarginTime.insert(MarginTime.begin(), stringDelayTiming);        // é…å»¶ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°
+				MarginTime.insert(MarginTime.begin(), stringDelayTime_ms);    // é…å»¶æ™‚é–“
 				MarginTime.insert(MarginTime.begin(), tempunique);                // irregular
 				EnableWindow(GetDlgItem(hwnd, ID_LATESETTING_2), TRUE);
 				EnableWindow(GetDlgItem(hParentWindow, ID_LATEINI_2), TRUE);
 				EnableWindow(GetDlgItem(hParentWindow, ID_EDIT_LATEDATA_TIMING), TRUE);
 			}
 			WriteToCSV(hwnd, MarginTime, CSVFILENAME);
-			EnableWindow(GetDlgItem(hwnd, ID_LATESETTING), TRUE);        // ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì—LŒø‰»
+			EnableWindow(GetDlgItem(hwnd, ID_LATESETTING), TRUE);        // ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®æœ‰åŠ¹åŒ–
 			EnableWindow(GetDlgItem(hParentWindow, ID_LATEINI), TRUE);
 
 		}
